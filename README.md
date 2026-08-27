@@ -1,5 +1,7 @@
 # Shieldify IP Astro site
 
+Hướng dẫn quản lý blog: [Keystatic CMS](./docs/KESTATIC-CMS-VI.md)
+
 Independent static implementation of the Shieldify IP website using Astro and TypeScript, with no legacy CMS or PHP runtime dependency.
 
 ## Commands

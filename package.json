@@ -11,14 +11,24 @@
     "generate:og": "node scripts/generate-og-images.mjs"
   },
   "dependencies": {
+    "@astrojs/markdoc": "^2.0.8",
+    "@astrojs/react": "^6.0.4",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "3.7.3",
-    "astro": "7.2.7"
+    "@astrojs/vercel": "^11.0.8",
+    "@keystatic/astro": "^6.0.0",
+    "@keystatic/core": "^0.6.9",
+    "astro": "7.2.7",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.10",
     "sharp": "^0.35.3",
     "svgo": "^4.0.1",
     "typescript": "6.0.3"
+  },
+  "overrides": {
+    "path-to-regexp": "6.3.0"
   }
 }

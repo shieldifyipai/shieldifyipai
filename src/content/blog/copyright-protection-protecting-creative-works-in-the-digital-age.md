@@ -6,7 +6,7 @@ description: >-
   combat unauthorized use.
 publishedDate: 2026-08-27
 image: >-
-  /images/copyright-protection-protecting-creative-works-in-the-digital-age/image.svg
+  /images/copyright-protection-protecting-creative-works-in-the-digital-age/image.webp
 imageAlt: >-
   Shieldify IP copyright protection with digital shield, copyright symbol, and
   online content monitoring and enforcement.

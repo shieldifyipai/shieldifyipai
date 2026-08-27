@@ -19,12 +19,16 @@ The form submits asynchronously to the Vercel Function at `/api/contact`, valida
 
 Before deploying:
 
-1. Add and verify `shieldifyip.com` in Resend.
+1. Add and verify `shieldifyip.ai` in Resend.
 2. Create a Resend API key with sending-only access.
-3. Add `RESEND_API_KEY`, `CONTACT_FROM_EMAIL`, `CONTACT_TO_EMAIL`, and `CONTACT_ALLOWED_ORIGINS` in Vercel Project Settings → Environment Variables.
+3. Add `RESEND_API_KEY`, `CONTACT_FROM_EMAIL`, `CONTACT_TO_EMAIL`, and `CONTACT_ALLOWED_ORIGINS` in Vercel Project Settings → Environment Variables. Use `info@shieldifyip.ai` for `CONTACT_TO_EMAIL`; `CONTACT_FROM_EMAIL` must match the exact domain or subdomain verified in Resend.
 4. Redeploy after saving the variables.
 
 Use `.env.example` as the configuration template. `PUBLIC_CONTACT_FORM_ENDPOINT` is browser-visible and defaults to `/api/contact`; all other variables are server-only. Never commit an API key or prefix it with `PUBLIC_`.
+
+The root-level Vercel Function is not executed by the regular `astro dev` server. In local Astro development, the form intentionally falls back to the visitor's email application. Test automatic delivery on a Vercel deployment, or use `vercel dev` with the required server-only environment variables.
+
+A successful API response means Resend accepted the message. If a notification is missing, use the returned request reference to inspect the Vercel Function logs and the Resend Email logs for delivery, bounce, or spam status.
 
 ## Blog content
 
@@ -71,4 +75,4 @@ The Industries overview is generated at `/industries`. Keep `industryNavigation`
 
 ## Search Console
 
-Set `PUBLIC_GOOGLE_SITE_VERIFICATION` in Vercel to the token supplied by Google Search Console, then redeploy. Do not paste the full `<meta>` element. Submit `https://shieldifyip.com/sitemap-index.xml` in Search Console after the production domain is live.
+Set `PUBLIC_GOOGLE_SITE_VERIFICATION` in Vercel to the token supplied by Google Search Console, then redeploy. Do not paste the full `<meta>` element. Submit `https://shieldifyip.ai/sitemap-index.xml` in Search Console after the production domain is live.

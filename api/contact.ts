@@ -3,6 +3,7 @@ const MAX_EMAIL_LENGTH = 254;
 const MAX_NAME_LENGTH = 100;
 const MAX_COMPANY_LENGTH = 160;
 const MAX_CASE_LENGTH = 3_000;
+const MAX_RECIPIENTS = 5;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const responseHeaders = {
@@ -22,6 +23,13 @@ function field(formData: FormData, name: string) {
 
 function singleLine(value: string) {
   return value.replace(/[\r\n]+/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
+function emailList(value: string) {
+  return value
+    .split(',')
+    .map((email) => email.trim().toLowerCase())
+    .filter(Boolean);
 }
 
 function escapeHtml(value: string) {
@@ -105,12 +113,21 @@ export async function POST(request: Request) {
   }
 
   const apiKey = process.env.RESEND_API_KEY;
-  const toEmail = process.env.CONTACT_TO_EMAIL ?? 'info@shieldifyip.com';
+  const toEmails = emailList(process.env.CONTACT_TO_EMAIL ?? 'info@shieldifyip.ai');
   const fromEmail = process.env.CONTACT_FROM_EMAIL;
 
   if (!apiKey || !fromEmail) {
     console.error('Contact function is missing RESEND_API_KEY or CONTACT_FROM_EMAIL.');
     return json({ ok: false, message: 'Contact service is not configured.' }, 503);
+  }
+
+  if (
+    toEmails.length === 0 ||
+    toEmails.length > MAX_RECIPIENTS ||
+    toEmails.some((recipient) => !EMAIL_PATTERN.test(recipient))
+  ) {
+    console.error('Contact function has an invalid CONTACT_TO_EMAIL value.');
+    return json({ ok: false, message: 'Contact recipient is not configured.' }, 503);
   }
 
   const safeName = escapeHtml(name || 'Not provided');
@@ -134,7 +151,7 @@ export async function POST(request: Request) {
       },
       body: JSON.stringify({
         from: fromEmail,
-        to: [toEmail],
+        to: toEmails,
         reply_to: email,
         subject: `New Shieldify IP consultation request${subjectName}`,
         text: [
@@ -166,13 +183,27 @@ export async function POST(request: Request) {
     return json({ ok: false, message: 'Email service is unavailable.' }, 502);
   }
 
+  let resendResult: { id?: string; message?: string } = {};
+  try {
+    resendResult = (await resendResponse.json()) as { id?: string; message?: string };
+  } catch {
+    // Resend normally returns JSON, but delivery handling must not depend on it.
+  }
+
   if (!resendResponse.ok) {
     console.error('Resend rejected a contact email.', {
       status: resendResponse.status,
       requestId,
+      reason: resendResult.message,
     });
     return json({ ok: false, message: 'Email delivery failed.' }, 502);
   }
+
+  console.info('Contact email accepted by Resend.', {
+    requestId,
+    providerId: resendResult.id,
+    recipientCount: toEmails.length,
+  });
 
   return json({ ok: true, requestId });
 }

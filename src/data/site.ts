@@ -1,8 +1,8 @@
 export const site = {
   name: 'Shieldify IP',
-  url: 'https://shieldifyip.com',
+  url: 'https://shieldifyip.ai',
   description: 'Technology-driven trademark protection, copyright enforcement, brand monitoring, evidence collection, and digital IP defense.',
-  email: 'info@shieldifyip.com',
+  email: 'info@shieldifyip.ai',
 };
 
 export const serviceNavigation = [

@@ -156,7 +156,7 @@ function createCardSvg(card) {
       <text x="101" y="208" fill="#b9fb6a" font-family="Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="2">${escapeXml(card.eyebrow)}</text>
       <text x="76" y="286" fill="#ffffff" font-family="Arial, sans-serif" font-size="58" font-weight="700" letter-spacing="-1.5">${title}</text>
       <text x="76" y="${descriptionY}" fill="#ffffff" fill-opacity=".67" font-family="Arial, sans-serif" font-size="21">${escapeXml(card.description)}</text>
-      <text x="1124" y="580" fill="#ffffff" fill-opacity=".52" text-anchor="end" font-family="Arial, sans-serif" font-size="17">shieldifyip.com</text>
+      <text x="1124" y="580" fill="#ffffff" fill-opacity=".52" text-anchor="end" font-family="Arial, sans-serif" font-size="17">shieldifyip.ai</text>
     </svg>
   `);
 }

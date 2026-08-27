@@ -6,7 +6,10 @@ interface Props {
 }
 
 const { compact = false } = Astro.props;
-const endpoint = import.meta.env.PUBLIC_CONTACT_FORM_ENDPOINT?.trim() || '/api/contact';
+const configuredEndpoint = import.meta.env.PUBLIC_CONTACT_FORM_ENDPOINT?.trim() || '/api/contact';
+// Astro's local dev server does not execute root-level Vercel Functions. Use the
+// email fallback locally unless a separate development endpoint is configured.
+const endpoint = import.meta.env.DEV && configuredEndpoint === '/api/contact' ? '' : configuredEndpoint;
 const action = endpoint || `mailto:${site.email}`;
 const formId = compact ? 'quick-contact' : 'contact-request';
 ---
@@ -140,7 +143,7 @@ const formId = compact ? 'quick-contact' : 'contact-request';
       }
 
       if (!endpoint) {
-        setStatus('Your email application is opening so you can send the request.');
+        setStatus('Local preview: your email application is opening so you can send the request.');
         return;
       }
 
@@ -161,17 +164,30 @@ const formId = compact ? 'quick-contact' : 'contact-request';
           signal: controller.signal,
         });
 
-        if (!response.ok) throw new Error(`Contact request failed with ${response.status}`);
+        const result = (await response.json().catch(() => null)) as {
+          ok?: boolean;
+          message?: string;
+          requestId?: string;
+        } | null;
+
+        if (!response.ok || result?.ok === false) {
+          throw new Error(result?.message || `Contact request failed with ${response.status}`);
+        }
 
         form.reset();
         if (pageField) pageField.value = window.location.href;
-        setStatus('Thank you. Your request has been sent. We will contact you shortly.', 'success');
+        const reference = result?.requestId ? ` Reference: ${result.requestId.slice(0, 8)}.` : '';
+        setStatus(`Thank you. Your request has been received.${reference} We will contact you shortly.`, 'success');
       } catch (error) {
         const timedOut = error instanceof DOMException && error.name === 'AbortError';
+        const serviceMessage = error instanceof Error ? error.message : '';
         setStatus(
           timedOut
-            ? 'The request took too long. Please try again or email info@shieldifyip.com.'
-            : 'We could not send your request. Please try again or email info@shieldifyip.com.',
+            ? 'The request took too long. Please try again or email info@shieldifyip.ai.'
+            : serviceMessage === 'Contact service is not configured.' ||
+                serviceMessage === 'Contact recipient is not configured.'
+              ? 'The contact service is temporarily unavailable. Please email info@shieldifyip.ai.'
+              : 'We could not send your request. Please try again or email info@shieldifyip.ai.',
           'error',
         );
       } finally {

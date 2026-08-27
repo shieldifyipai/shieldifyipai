@@ -1,8 +1,17 @@
 export const site = {
   name: 'Shieldify IP',
+  legalName: 'Shieldify IP Co., Ltd',
   url: 'https://shieldifyip.ai',
   description: 'Technology-driven trademark protection, copyright enforcement, brand monitoring, evidence collection, and digital IP defense.',
   email: 'info@shieldifyip.ai',
+  taxId: '2803206763',
+  address: 'Le Hoan Street, Phong Coc Village, Xuan Lap Commune, Thanh Hoa Province, Vietnam',
+  addressDetails: {
+    streetAddress: 'Le Hoan Street, Phong Coc Village',
+    addressLocality: 'Xuan Lap Commune',
+    addressRegion: 'Thanh Hoa Province',
+    addressCountry: 'VN',
+  },
 };
 
 export const serviceNavigation = [

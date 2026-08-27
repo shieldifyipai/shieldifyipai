@@ -96,6 +96,7 @@ p{margin:0}
 .site-footer{padding-top:120px}
 .footer-main{display:grid;grid-template-columns:1.55fr 1.05fr 1.1fr .9fr .9fr;gap:42px;padding-top:100px}
 .footer-brand p{max-width:310px;margin:28px 0 22px}.footer-main h2{font-size:16px;margin-bottom:29px;color:var(--muted)}
+.footer-company{display:grid;gap:12px;max-width:350px;margin:0 0 24px;font-style:normal;font-size:12px;line-height:1.55;color:var(--muted)}.footer-company span{display:grid;gap:2px}.footer-company strong{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#fff}
 .footer-main ul{list-style:none;margin:0;padding:0}.footer-main li+li{margin-top:11px}.footer-main a:hover{color:var(--lime)}
 .socials{display:flex;gap:10px}.socials a{display:grid;place-items:center;width:34px;height:34px;border:1px solid var(--border);border-radius:50%;font-size:12px}
 .footer-wordmark{margin-top:100px}.footer-wordmark img{width:100%}

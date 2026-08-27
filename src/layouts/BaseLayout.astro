@@ -55,10 +55,16 @@ const organizationSchema = {
   '@type': 'Organization',
   '@id': `${site.url}/#organization`,
   name: site.name,
+  legalName: site.legalName,
   url: site.url,
   logo: `${site.url}/images/logo.svg`,
   description: site.description,
   email: site.email,
+  taxID: site.taxId,
+  address: {
+    '@type': 'PostalAddress',
+    ...site.addressDetails,
+  },
 };
 const websiteSchema = {
   '@context': 'https://schema.org',

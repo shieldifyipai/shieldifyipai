@@ -5,6 +5,7 @@ import IconCard from '@/components/IconCard.astro';
 import Button from '@/components/Button.astro';
 import ContactForm from '@/components/ContactForm.astro';
 import { services, workflow, industries } from '@/data/services';
+import { site } from '@/data/site';
 ---
 <PageHero title="Technology-Driven Intellectual Property Protection Services" current="Our Services" description="Shieldify IP provides structured intellectual property monitoring, evidence collection and enforcement support designed to help organizations protect trademarks, copyrighted works and brand identity across digital environments.">
   <div class="services-hero-media container reveal">
@@ -34,14 +35,24 @@ import { services, workflow, industries } from '@/data/services';
 
 <section class="section contact" id="contact">
   <div class="container contact__layout">
-    <div class="reveal"><span class="eyebrow">Contact</span><h2>Need Protection?<br />Let's Talk</h2><p>Tell us which assets, platforms, or infringement concerns you want reviewed.</p><div class="contact__details"><div><small>Email</small><a href="mailto:info@shieldifyip.ai">info@shieldifyip.ai</a><span>Available upon request</span></div><div><small>Website</small><a href="https://shieldifyip.ai">shieldifyip.ai</a></div></div></div>
+    <div class="reveal">
+      <span class="eyebrow">Contact</span>
+      <h2>Need Protection?<br />Let's Talk</h2>
+      <p>Tell us which assets, platforms, or infringement concerns you want reviewed.</p>
+      <div class="contact__details">
+        <div><small>Email</small><a href={`mailto:${site.email}`}>{site.email}</a></div>
+        <div><small>Website</small><a href={site.url}>shieldifyip.ai</a></div>
+        <div><small>Tax ID</small><span>{site.taxId}</span></div>
+        <div><small>Registered address</small><address>{site.address}</address></div>
+      </div>
+    </div>
     <ContactForm />
   </div>
 </section>
 
 <style>
-.page-hero{padding-bottom:0}.services-hero-media{position:relative;margin-top:100px;text-align:left}.services-hero-media__images{display:grid;grid-template-columns:1fr 1fr;overflow:hidden;border-radius:15px}.services-hero-media__images img{width:100%;height:610px;object-fit:cover}.services-hero-media article{position:absolute;right:0;bottom:0;width:49%;padding:45px;background:var(--surface);border:1px solid var(--border);border-radius:12px}.services-hero-media article h2{font-size:30px;margin-bottom:15px}.services-hero-media article p{margin-bottom:25px}.services-list{padding-top:180px}.services-list .icon-card{min-height:300px;background:#090d16}.workflow-list{min-height:1500px}.workflow-list .icon-card{min-height:280px}.industries{background:#070b13}.industries .cards-grid{grid-template-columns:repeat(5,1fr)}.industries .icon-card{min-height:285px;background:transparent}.industries .icon-card__icon{width:45px;height:45px}.contact__layout{display:grid;grid-template-columns:1fr 1.15fr;gap:120px}.contact h2{font-size:54px;margin:20px 0}.contact__details{display:flex;gap:50px;margin-top:55px;padding-top:30px;border-top:1px solid var(--border)}.contact__details div{display:flex;flex-direction:column}.contact__details small{margin-bottom:12px}.contact__details a{color:#fff;font-weight:600}.contact__details span{font-size:13px}
+.page-hero{padding-bottom:0}.services-hero-media{position:relative;margin-top:100px;text-align:left}.services-hero-media__images{display:grid;grid-template-columns:1fr 1fr;overflow:hidden;border-radius:15px}.services-hero-media__images img{width:100%;height:610px;object-fit:cover}.services-hero-media article{position:absolute;right:0;bottom:0;width:49%;padding:45px;background:var(--surface);border:1px solid var(--border);border-radius:12px}.services-hero-media article h2{font-size:30px;margin-bottom:15px}.services-hero-media article p{margin-bottom:25px}.services-list{padding-top:180px}.services-list .icon-card{min-height:300px;background:#090d16}.workflow-list{min-height:1500px}.workflow-list .icon-card{min-height:280px}.industries{background:#070b13}.industries .cards-grid{grid-template-columns:repeat(5,1fr)}.industries .icon-card{min-height:285px;background:transparent}.industries .icon-card__icon{width:45px;height:45px}.contact__layout{display:grid;grid-template-columns:1fr 1.15fr;gap:120px}.contact h2{font-size:54px;margin:20px 0}.contact__details{display:grid;grid-template-columns:1fr 1fr;gap:28px 40px;margin-top:55px;padding-top:30px;border-top:1px solid var(--border)}.contact__details div{display:flex;flex-direction:column}.contact__details small{margin-bottom:8px}.contact__details a{color:#fff;font-weight:600}.contact__details span,.contact__details address{font-size:13px;line-height:1.6;font-style:normal;color:var(--muted)}
 .service-cases{background:var(--surface-dark)}.service-cases__layout{display:flex;align-items:center;justify-content:space-between;gap:70px;padding:55px 60px;border:1px solid var(--border);border-radius:15px;background:var(--surface)}.service-cases__layout>div{max-width:760px}.service-cases h2{margin:18px 0;font-size:42px}.service-cases :global(.button){flex:none}
 @media(max-width:1100px){.industries .cards-grid{grid-template-columns:1fr 1fr}}@media(max-width:900px){.workflow-list{min-height:auto}.contact__layout{grid-template-columns:1fr;gap:60px}}
-@media(max-width:700px){.service-cases__layout{display:grid;gap:28px;padding:35px 25px}.service-cases h2{font-size:31px}.service-cases :global(.button){justify-self:start}}@media(max-width:600px){.services-hero-media{margin-top:65px}.services-hero-media__images{grid-template-columns:1fr}.services-hero-media__images img{height:280px}.services-hero-media article{position:relative;width:100%;margin-top:-1px;padding:25px}.services-hero-media article h2{font-size:21px}.services-list{padding-top:100px}.services-list .icon-card,.workflow-list .icon-card,.industries .icon-card{min-height:210px}.industries .cards-grid{grid-template-columns:1fr}.contact h2{font-size:34px}.contact__details{display:grid;gap:25px}.contact__layout{gap:45px}}
+@media(max-width:700px){.service-cases__layout{display:grid;gap:28px;padding:35px 25px}.service-cases h2{font-size:31px}.service-cases :global(.button){justify-self:start}}@media(max-width:600px){.services-hero-media{margin-top:65px}.services-hero-media__images{grid-template-columns:1fr}.services-hero-media__images img{height:280px}.services-hero-media article{position:relative;width:100%;margin-top:-1px;padding:25px}.services-hero-media article h2{font-size:21px}.services-list{padding-top:100px}.services-list .icon-card,.workflow-list .icon-card,.industries .icon-card{min-height:210px}.industries .cards-grid{grid-template-columns:1fr}.contact h2{font-size:34px}.contact__details{grid-template-columns:1fr;gap:25px}.contact__layout{gap:45px}}
 </style>

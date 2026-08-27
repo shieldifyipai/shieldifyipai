@@ -1,0 +1,27 @@
+---
+import Button from '@/components/Button.astro';
+import { industryNavigation } from '@/data/site';
+---
+
+<section class="section home-industries">
+  <div class="container">
+    <div class="home-industries__heading">
+      <div><span class="eyebrow">Industry Solutions</span><h2>Built for Different Digital Risk Environments</h2></div>
+      <div><p>Configure monitoring, evidence and review around the assets, channels and operating priorities that matter to your organization.</p><Button href="/industries" variant="outline">Explore All Industries</Button></div>
+    </div>
+    <div class="home-industries__grid">
+      {industryNavigation.map((item, index) => (
+        <a href={item.href} class:list={['reveal', { 'home-industries__card--wide': index < 2 }]}>
+          <div><img src={item.icon} alt="" width="40" height="40" loading="lazy" decoding="async" /><span>{String(index + 1).padStart(2, '0')}</span></div>
+          <h3>{item.label}</h3>
+          <p>{item.description}</p>
+          <strong>Explore industry solution <span aria-hidden="true">→</span></strong>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .home-industries{background:var(--surface-dark)}.home-industries__heading{display:grid;grid-template-columns:1.15fr .75fr;gap:90px;align-items:end;margin-bottom:56px}.home-industries__heading h2{max-width:750px;margin-top:18px;font-size:50px;letter-spacing:-.04em}.home-industries__heading>div:last-child p{margin-bottom:24px}.home-industries__grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:18px}.home-industries__grid>a{display:flex;grid-column:span 2;flex-direction:column;min-height:340px;padding:31px;border:1px solid var(--border);border-radius:13px;background:var(--surface);transition:transform .22s ease,border-color .22s ease}.home-industries__grid>a.home-industries__card--wide{grid-column:span 3}.home-industries__grid>a:hover{transform:translateY(-4px);border-color:rgba(185,251,106,.34)}.home-industries__grid>a>div{display:flex;align-items:center;justify-content:space-between;margin-bottom:37px}.home-industries__grid img{width:48px;height:48px;padding:11px;border-radius:11px;background:rgba(185,251,106,.08)}.home-industries__grid>a>div span{color:var(--muted);font-size:11px;font-weight:700}.home-industries h3{font-size:25px}.home-industries p{margin:15px 0;font-size:14px}.home-industries strong{display:inline-flex;gap:8px;margin-top:auto;padding-top:24px;color:var(--lime);font-size:12px}@media(max-width:900px){.home-industries__heading{grid-template-columns:1fr;gap:24px}.home-industries__grid{grid-template-columns:1fr 1fr}.home-industries__grid>a,.home-industries__grid>a.home-industries__card--wide{grid-column:auto}}@media(max-width:600px){.home-industries__heading{margin-bottom:40px}.home-industries__heading h2{font-size:34px}.home-industries__grid{grid-template-columns:1fr}.home-industries__grid>a{min-height:auto;padding:26px}.home-industries__grid>a>div{margin-bottom:28px}.home-industries h3{font-size:22px}}
+</style>

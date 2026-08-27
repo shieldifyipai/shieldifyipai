@@ -1,0 +1,171 @@
+---
+import Button from '@/components/Button.astro';
+import { industryNavigation } from '@/data/site';
+
+const operatingSteps = [
+  ['01', 'Register the Baseline', 'Connect rights, protected assets, authorized use, territories and priority channels before monitoring begins.'],
+  ['02', 'Monitor Relevant Signals', 'Review public digital environments for findings that match the organization\'s defined scope and references.'],
+  ['03', 'Preserve & Review Context', 'Keep source URLs, screenshots, timestamps, ownership support and reviewer notes together.'],
+  ['04', 'Coordinate Action & Reporting', 'Support an appropriate response path while retaining submissions, third-party decisions and case history.'],
+];
+
+const principles = [
+  ['Evidence Before Action', 'A finding becomes useful when its source, context, ownership support and review history are preserved.', '/images/shieldify-avatar-evidence-1.svg'],
+  ['Context Matters', 'A matching name, image or listing is a signal for review - not an automatic conclusion about infringement.', '/images/shieldify-avatar-monitoring-1.svg'],
+  ['No Overstated Claims', 'Removal decisions remain with platforms, hosts, registrars and other relevant third parties.', '/images/shieldify-avatar-governance-1.svg'],
+  ['Transparent Case History', 'Teams can follow what was observed, reviewed, submitted, answered and closed without losing the original record.', '/images/shieldify-avatar-workflow-1.svg'],
+];
+
+const capabilities = [
+  ['Technology-Assisted Monitoring', 'Organize relevant public findings across websites, domains, marketplaces, social platforms, search and advertising.', '/images/shieldify-about-icon-technology.svg'],
+  ['Structured Evidence', 'Preserve URLs, screenshots, timestamps, visible context, ownership records and authority information.', '/images/shieldify-about-icon-evidence.svg'],
+  ['Professional Review Workflow', 'Route findings through defined review states, responsibilities and escalation paths before action.', '/images/shieldify-about-icon-engine.svg'],
+  ['Enforcement Coordination', 'Prepare case records, track submissions and retain third-party responses, follow-up and closure reasons.', '/images/shieldify-about-icon-enforcement.svg'],
+];
+---
+
+<section class="about-hero">
+  <div class="container">
+    <nav aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><strong>About Shieldify IP</strong></nav>
+    <div class="about-hero__grid">
+      <div class="about-hero__copy">
+        <span class="eyebrow">About Shieldify IP</span>
+        <h1>A More Accountable Way to Operate Digital IP Protection</h1>
+        <p>Shieldify IP connects technology-assisted monitoring, structured evidence, professional review and transparent case tracking for organizations protecting intellectual property online.</p>
+        <div class="about-hero__actions"><Button href="/our-services">Explore Our Services</Button><Button href="/our-services#contact" variant="outline">Talk to Our Team</Button></div>
+        <ul aria-label="Shieldify IP operating commitments">
+          <li>Evidence-connected workflows</li>
+          <li>Context-aware review</li>
+          <li>Transparent reporting</li>
+        </ul>
+      </div>
+
+      <div class="about-hero__visual reveal">
+        <div class="about-hero__frame">
+          <div class="about-hero__frame-top"><span>Shieldify IP Operating Layer</span><small><i></i> Structured monitoring</small></div>
+          <img src="/images/shieldify-about-hero-ai.webp" alt="Shieldify IP monitoring, evidence and case workflow dashboard" width="1717" height="916" fetchpriority="high" decoding="async" />
+        </div>
+        <div class="about-hero__status">
+          <span>Evidence</span><strong>Connected to every case</strong>
+          <span>Decisions</span><strong>Tracked with context</strong>
+          <span>Outcomes</span><strong>Reported without overstatement</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about-purpose section">
+  <div class="container about-purpose__grid">
+    <div>
+      <span class="eyebrow">Why We Exist</span>
+      <h2>Digital IP Work Needs More Than a Collection of Screenshots</h2>
+    </div>
+    <div class="about-purpose__copy">
+      <p>Online brand and content risk appears across fast-changing platforms, accounts, listings, domains and advertisements. Teams often discover individual issues but struggle to connect them with ownership information, review decisions and action history.</p>
+      <p>Shieldify IP is designed to create that connection. The operating model starts with what the organization owns, monitors the environments that matter, preserves observable evidence and keeps every decision and third-party response attached to the case.</p>
+      <p>Technology supports scale and consistency. Professional judgment remains essential, and legal interpretation should be provided by qualified counsel where required.</p>
+    </div>
+  </div>
+</section>
+
+<section class="about-operating section section--soft">
+  <div class="container">
+    <div class="about-heading">
+      <span class="eyebrow">Our Operating Model</span>
+      <h2>From Public Signal to an Accountable Case Record</h2>
+      <p>A repeatable process keeps rights information, findings, evidence, review, action and reporting connected.</p>
+    </div>
+    <div class="about-operating__visual reveal">
+      <div>
+        <span>Centralized Workflow</span>
+        <h3>Monitoring, evidence and case status in one operating view</h3>
+        <p>Designed to help teams understand what happened, what support exists and what should happen next.</p>
+      </div>
+      <img src="/images/shieldify-workflow.svg" alt="Centralized intellectual property evidence and case workflow" width="1180" height="600" loading="lazy" decoding="async" />
+    </div>
+    <ol class="about-operating__steps">
+      {operatingSteps.map(([number, title, description]) => <li class="reveal"><span>{number}</span><h3>{title}</h3><p>{description}</p></li>)}
+    </ol>
+  </div>
+</section>
+
+<section class="about-principles section">
+  <div class="container about-principles__layout">
+    <div class="about-principles__intro">
+      <span class="eyebrow">Operating Principles</span>
+      <h2>Built for Careful Review, Not Automatic Conclusions</h2>
+      <p>Reliable IP operations distinguish observed signals from legal conclusions and operational activity from guaranteed outcomes.</p>
+      <Button href="/case-studies" variant="outline">Explore Case Workflows</Button>
+    </div>
+    <div class="about-principles__grid">
+      {principles.map(([title, description, icon], index) => (
+        <article class="reveal">
+          <div><img src={icon} alt="" width="38" height="38" loading="lazy" decoding="async" /><span>{String(index + 1).padStart(2, '0')}</span></div>
+          <h3>{title}</h3>
+          <p>{description}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="about-capabilities section section--soft" id="capabilities">
+  <div class="container">
+    <div class="about-heading">
+      <span class="eyebrow">What We Bring Together</span>
+      <h2>Four Capabilities, One Connected Protection Workflow</h2>
+      <p>Shieldify IP provides an operating layer around digital monitoring and enforcement support.</p>
+    </div>
+    <div class="about-capabilities__grid">
+      {capabilities.map(([title, description, icon]) => (
+        <article class="reveal">
+          <img src={icon} alt="" width="36" height="36" loading="lazy" decoding="async" />
+          <h3>{title}</h3>
+          <p>{description}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="about-industries section">
+  <div class="container">
+    <div class="about-industries__heading">
+      <div><span class="eyebrow">Who We Support</span><h2>Adapted to Different Digital Risk Environments</h2></div>
+      <p>The same operating discipline can be configured around different assets, channels, ownership structures and review priorities.</p>
+    </div>
+    <div class="about-industries__grid">
+      {industryNavigation.map((item) => (
+        <a href={item.href} class="reveal">
+          <img src={item.icon} alt="" width="34" height="34" loading="lazy" decoding="async" />
+          <span><strong>{item.label}</strong><small>{item.description}</small></span>
+          <b aria-hidden="true">→</b>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="about-governance section">
+  <div class="container about-governance__panel reveal">
+    <div class="about-governance__statement">
+      <span>Responsible Operations</span>
+      <h2>Clear About What Technology Can - and Cannot - Decide</h2>
+      <p>Monitoring can identify relevant signals. Evidence can preserve observable facts. Neither replaces contextual professional review or qualified legal advice.</p>
+    </div>
+    <div class="about-governance__commitments">
+      <span class="eyebrow">Our Commitments</span>
+      <ul>
+        <li><strong>Observed facts stay distinct from reviewer conclusions.</strong><small>Records retain source context and the basis for each assessment.</small></li>
+        <li><strong>Third-party decisions are reported accurately.</strong><small>Platforms, hosts, registrars and other providers control their own outcomes.</small></li>
+        <li><strong>Case history remains visible.</strong><small>Actions, responses, follow-up and closure reasons stay connected to the evidence.</small></li>
+      </ul>
+      <div><Button href="/our-services#contact">Request a Consultation</Button><Button href="/industries" variant="outline">Explore Industries</Button></div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-hero{min-height:900px;padding:155px 0 105px;background:url('/images/hero-bg.svg') center top/cover no-repeat}.about-hero nav{display:flex;gap:10px;margin-bottom:62px;font-size:12px}.about-hero nav a:hover{color:var(--lime)}.about-hero__grid{display:grid;grid-template-columns:.92fr 1.08fr;gap:80px;align-items:center}.about-hero__copy h1{max-width:690px;margin:22px 0 25px;font-size:66px;letter-spacing:-.05em}.about-hero__copy>p{max-width:650px;font-size:18px}.about-hero__actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:31px}.about-hero__copy ul{display:flex;flex-wrap:wrap;gap:8px;margin:31px 0 0;padding:0;list-style:none}.about-hero__copy li{padding:7px 11px;border:1px solid var(--border);border-radius:999px;font-size:10px}.about-hero__visual{position:relative;padding:18px 18px 100px}.about-hero__frame{overflow:hidden;border:1px solid rgba(255,255,255,.13);border-radius:16px;background:#09101d;box-shadow:0 35px 90px rgba(0,0,0,.36)}.about-hero__frame-top{display:flex;align-items:center;justify-content:space-between;padding:15px 17px;border-bottom:1px solid var(--border);font-size:10px;font-weight:700}.about-hero__frame-top small{display:flex;align-items:center;gap:6px;color:var(--lime)}.about-hero__frame-top i{width:6px;height:6px;border-radius:50%;background:var(--lime);box-shadow:0 0 12px var(--lime)}.about-hero__frame>img{width:100%;height:390px;object-fit:cover}.about-hero__status{position:absolute;right:0;bottom:0;display:grid;grid-template-columns:auto 1fr;gap:8px 16px;width:min(430px,90%);padding:24px;border:1px solid rgba(185,251,106,.28);border-radius:13px;background:rgba(9,14,24,.96);box-shadow:0 22px 55px rgba(0,0,0,.38);backdrop-filter:blur(15px)}.about-hero__status span{color:var(--lime);font-size:10px;text-transform:uppercase}.about-hero__status strong{color:#fff;font-size:12px}.about-purpose__grid{display:grid;grid-template-columns:1fr 1fr;gap:120px}.about-purpose h2{max-width:590px;margin-top:22px;font-size:52px;letter-spacing:-.04em}.about-purpose__copy{max-width:650px;padding-top:8px}.about-purpose__copy p{font-size:17px}.about-purpose__copy p+p{margin-top:24px}.about-heading{max-width:780px;margin-bottom:55px}.about-heading h2{margin:18px 0;font-size:50px;letter-spacing:-.038em}.about-operating__visual{display:grid;grid-template-columns:.8fr 1.2fr;align-items:center;overflow:hidden;min-height:500px;border:1px solid var(--border);border-radius:16px;background:#090d16}.about-operating__visual>div{padding:55px}.about-operating__visual>div>span{color:var(--lime);font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase}.about-operating__visual h3{margin:20px 0;font-size:32px}.about-operating__visual img{align-self:end;width:100%;height:440px;object-fit:contain;object-position:right bottom}.about-operating__steps{display:grid;grid-template-columns:repeat(4,1fr);margin:30px 0 0;padding:0;list-style:none}.about-operating__steps li{padding:31px;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}.about-operating__steps li+li{border-left:1px solid var(--border)}.about-operating__steps li>span{display:grid;place-items:center;width:42px;height:42px;margin-bottom:27px;border-radius:10px;background:var(--lime);color:#090d16;font-size:12px;font-weight:800}.about-operating__steps h3{margin-bottom:14px;font-size:19px}.about-operating__steps p{font-size:14px}.about-principles__layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:90px}.about-principles__intro{position:sticky;top:120px;align-self:start}.about-principles__intro h2{margin:20px 0;font-size:47px;letter-spacing:-.035em}.about-principles__intro p{margin-bottom:28px}.about-principles__grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.about-principles article{min-height:300px;padding:31px;border:1px solid var(--border);border-radius:13px;background:var(--surface)}.about-principles article>div{display:flex;align-items:center;justify-content:space-between}.about-principles article img{width:48px;height:48px;padding:11px;border-radius:11px;background:rgba(185,251,106,.08)}.about-principles article>div span{color:var(--muted);font-size:11px;font-weight:700}.about-principles h3{margin:39px 0 14px;font-size:22px}.about-principles p{font-size:14px}.about-capabilities__grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.about-capabilities article{min-height:315px;padding:33px;border:1px solid var(--border);border-radius:13px;background:#090d16}.about-capabilities article>img{width:54px;height:54px;padding:13px;border-radius:12px;background:var(--lime)}.about-capabilities h3{margin:35px 0 15px;font-size:21px}.about-capabilities p{font-size:14px}.about-industries__heading{display:grid;grid-template-columns:1fr .7fr;gap:90px;align-items:end;margin-bottom:50px}.about-industries__heading h2{max-width:700px;margin-top:18px;font-size:49px;letter-spacing:-.038em}.about-industries__grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.about-industries__grid>a{display:grid;grid-template-columns:44px 1fr auto;gap:16px;align-items:center;padding:24px;border:1px solid var(--border);border-radius:12px;background:var(--surface);transition:transform .2s ease,border-color .2s ease}.about-industries__grid>a:last-child{grid-column:1/-1}.about-industries__grid>a:hover{transform:translateY(-3px);border-color:rgba(185,251,106,.34)}.about-industries__grid img{width:40px;height:40px;padding:9px;border-radius:9px;background:rgba(185,251,106,.08)}.about-industries__grid span{display:grid;gap:4px}.about-industries__grid strong{color:#fff;font-size:15px}.about-industries__grid small{font-size:12px}.about-industries__grid b{color:var(--lime)}.about-governance__panel{display:grid;grid-template-columns:.9fr 1.1fr;overflow:hidden;padding:0;border:1px solid var(--border);border-radius:17px;background:var(--surface)}.about-governance__statement{display:flex;flex-direction:column;justify-content:center;min-height:590px;padding:60px;background:var(--lime);color:#14200e}.about-governance__statement>span{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.about-governance__statement h2{margin:22px 0;color:#090d16;font-size:47px;letter-spacing:-.04em}.about-governance__statement p{color:#1a2615}.about-governance__commitments{padding:60px}.about-governance__commitments ul{margin:30px 0;padding:0;list-style:none}.about-governance__commitments li{display:grid;gap:6px;padding:21px 0;border-bottom:1px solid var(--border)}.about-governance__commitments strong{color:#fff;font-size:15px}.about-governance__commitments small{font-size:13px}.about-governance__commitments>div{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}@media(max-width:1100px){.about-hero__grid{grid-template-columns:1fr;gap:55px}.about-hero__copy h1{max-width:900px}.about-purpose__grid{gap:65px}.about-operating__visual{grid-template-columns:1fr}.about-operating__visual img{height:380px}.about-principles__layout{grid-template-columns:1fr}.about-principles__intro{position:static}.about-capabilities__grid{grid-template-columns:1fr 1fr}}@media(max-width:760px){.about-hero{min-height:auto;padding:130px 0 78px}.about-hero nav{margin-bottom:40px}.about-hero__copy h1{font-size:42px;line-height:1.15}.about-hero__copy>p{font-size:16px}.about-hero__actions{display:grid}.about-hero__actions :global(.button){width:100%}.about-hero__visual{padding:0 0 95px}.about-hero__frame>img{height:auto}.about-purpose__grid,.about-industries__heading,.about-governance__panel{grid-template-columns:1fr}.about-purpose__grid{gap:35px}.about-purpose h2,.about-heading h2,.about-principles__intro h2,.about-industries__heading h2{font-size:34px}.about-purpose__copy p{font-size:16px}.about-operating__visual>div{padding:30px 25px}.about-operating__visual h3{font-size:25px}.about-operating__visual img{height:auto}.about-operating__steps,.about-principles__grid,.about-capabilities__grid,.about-industries__grid{grid-template-columns:1fr}.about-operating__steps li+li{border-left:0}.about-principles article,.about-capabilities article{min-height:auto}.about-industries__heading{gap:20px}.about-industries__grid>a:last-child{grid-column:auto}.about-governance__statement{min-height:auto;padding:42px 28px}.about-governance__statement h2{font-size:35px}.about-governance__commitments{padding:42px 28px}}@media(max-width:480px){.about-hero__copy h1{font-size:38px}.about-hero__status{right:0;left:0;width:100%;grid-template-columns:1fr;padding:19px}.about-hero__status span:not(:first-child){margin-top:5px}.about-industries__grid>a{grid-template-columns:40px 1fr}.about-industries__grid b{display:none}}
+</style>

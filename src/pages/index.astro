@@ -1,0 +1,46 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Hero from '@/sections/home/Hero.astro';
+import CoreServices from '@/sections/home/CoreServices.astro';
+import HomeIndustries from '@/sections/home/HomeIndustries.astro';
+import SelectedCases from '@/sections/case-studies/SelectedCases.astro';
+import ProtectionWorkflow from '@/sections/home/ProtectionWorkflow.astro';
+import TrustPrinciples from '@/sections/home/TrustPrinciples.astro';
+import Pricing from '@/sections/home/Pricing.astro';
+import LatestInsights from '@/sections/home/LatestInsights.astro';
+import WhyAndFAQ from '@/sections/home/WhyAndFAQ.astro';
+import { faqs } from '@/data/home';
+import { site } from '@/data/site';
+
+const pageDescription = 'Protect trademarks, copyrights, and digital brand assets with technology-driven monitoring, evidence collection, enforcement support, and clear reporting.';
+const homeSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': `${site.url}/#webpage`,
+  url: site.url,
+  name: `${site.name} – Trademark Protection & Brand Defense`,
+  description: pageDescription,
+  inLanguage: 'en',
+  isPartOf: { '@id': `${site.url}/#website` },
+};
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(([question, answer]) => ({
+    '@type': 'Question',
+    name: question.replace(/^\d+\.\s*/, ''),
+    acceptedAnswer: { '@type': 'Answer', text: answer },
+  })),
+};
+---
+<BaseLayout title="Shieldify IP" description={pageDescription} schema={[homeSchema, faqSchema]}>
+  <Hero />
+  <CoreServices />
+  <HomeIndustries />
+  <ProtectionWorkflow />
+  <TrustPrinciples />
+  <SelectedCases />
+  <Pricing />
+  <LatestInsights />
+  <WhyAndFAQ />
+</BaseLayout>

@@ -1,0 +1,24 @@
+{
+  "name": "shieldify-ip-astro",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "generate:og": "node scripts/generate-og-images.mjs"
+  },
+  "dependencies": {
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "3.7.3",
+    "astro": "7.2.7"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "sharp": "^0.35.3",
+    "svgo": "^4.0.1",
+    "typescript": "6.0.3"
+  }
+}

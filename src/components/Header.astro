@@ -1,0 +1,168 @@
+---
+import { companyNavigation, industryNavigation, resourceNavigation, serviceNavigation } from '@/data/site';
+
+const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href: string) => href === '/'
+  ? pathname === '/'
+  : pathname === href || pathname.startsWith(`${href}/`);
+const servicesActive = isActive('/our-services');
+const industriesActive = isActive('/industries');
+const resourcesActive = isActive('/blog');
+const companyActive = isActive('/about-us');
+---
+
+<header class="enterprise-header" data-header>
+  <div class="enterprise-header__inner">
+    <a class="enterprise-logo" href="/" aria-label="Shieldify IP home">
+      <img src="/images/logo.svg" alt="Shieldify IP" width="158" height="41" />
+    </a>
+
+    <nav class="enterprise-nav" aria-label="Primary navigation">
+      <details class:list={['nav-group', { 'is-current': servicesActive }]} data-nav-group>
+        <summary>Services <span aria-hidden="true">⌄</span></summary>
+        <div class="nav-panel nav-panel--services">
+          <div class="nav-panel__heading">
+            <div><span>Protection Services</span><strong>Structured support across the digital IP lifecycle</strong></div>
+            <a href="/our-services">View all services <span aria-hidden="true">→</span></a>
+          </div>
+          <div class="service-menu-grid">
+            {serviceNavigation.map((item) => (
+              <a href={item.href} class:list={{ active: isActive(item.href) }} aria-current={isActive(item.href) ? 'page' : undefined}>
+                <img src={item.icon} alt="" width="28" height="28" loading="lazy" decoding="async" />
+                <span><strong>{item.label}</strong><small>{item.description}</small></span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </details>
+
+      <details class:list={['nav-group', { 'is-current': industriesActive }]} data-nav-group>
+        <summary>Industries <span aria-hidden="true">⌄</span></summary>
+        <div class="nav-panel nav-panel--industry">
+          <div class="nav-panel__heading nav-panel__heading--industry">
+            <div><span>Industry Solutions</span><strong>Protection workflows shaped around your environment</strong></div>
+            <a href="/industries">View all <span aria-hidden="true">→</span></a>
+          </div>
+          <div class="industry-menu-list">
+            {industryNavigation.map((item) => (
+              <a href={item.href} class:list={{ active: isActive(item.href) }} aria-current={isActive(item.href) ? 'page' : undefined}>
+                <img src={item.icon} alt="" width="28" height="28" loading="lazy" decoding="async" />
+                <span><strong>{item.label}</strong><small>{item.description}</small></span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </details>
+
+      <a class:list={['nav-direct', { active: isActive('/case-studies') }]} href="/case-studies" aria-current={isActive('/case-studies') ? 'page' : undefined}>Case Studies</a>
+
+      <details class:list={['nav-group', { 'is-current': resourcesActive }]} data-nav-group>
+        <summary>Resources <span aria-hidden="true">⌄</span></summary>
+        <div class="nav-panel nav-panel--compact">
+          {resourceNavigation.map((item) => (
+            <a href={item.href} class:list={{ active: isActive(item.href) }}>
+              <strong>{item.label}</strong><small>{item.description}</small>
+            </a>
+          ))}
+        </div>
+      </details>
+
+      <details class:list={['nav-group', { 'is-current': companyActive }]} data-nav-group>
+        <summary>Company <span aria-hidden="true">⌄</span></summary>
+        <div class="nav-panel nav-panel--compact nav-panel--right">
+          {companyNavigation.map((item) => (
+            <a href={item.href} class:list={{ active: isActive(item.href) }}>
+              <strong>{item.label}</strong><small>{item.description}</small>
+            </a>
+          ))}
+        </div>
+      </details>
+    </nav>
+
+    <div class="enterprise-actions">
+      <a class="portal-link" href="https://app.shieldifyip.ai">Log In <span aria-hidden="true">↗</span></a>
+      <a class="header-cta" href="/our-services#contact">Request Consultation <span aria-hidden="true">→</span></a>
+    </div>
+
+    <button class="enterprise-menu-toggle" type="button" aria-expanded="false" aria-controls="enterprise-mobile-menu" aria-label="Open menu" data-menu-toggle>
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <nav class="enterprise-mobile-nav" id="enterprise-mobile-menu" aria-label="Mobile navigation" data-mobile-menu hidden>
+    <details open={servicesActive}>
+      <summary>Services <span aria-hidden="true">+</span></summary>
+      <div><a class="mobile-overview" href="/our-services">All Services</a>{serviceNavigation.map((item) => <a href={item.href} class:list={{ active: isActive(item.href) }}>{item.label}</a>)}</div>
+    </details>
+    <details open={industriesActive}>
+      <summary>Industries <span aria-hidden="true">+</span></summary>
+      <div><a class="mobile-overview" href="/industries">All Industries</a>{industryNavigation.map((item) => <a href={item.href} class:list={{ active: isActive(item.href) }}>{item.label}</a>)}</div>
+    </details>
+    <a class:list={['mobile-direct', { active: isActive('/case-studies') }]} href="/case-studies">Case Studies</a>
+    <details open={resourcesActive}>
+      <summary>Resources <span aria-hidden="true">+</span></summary>
+      <div>{resourceNavigation.map((item) => <a href={item.href} class:list={{ active: isActive(item.href) }}>{item.label}</a>)}</div>
+    </details>
+    <details open={companyActive}>
+      <summary>Company <span aria-hidden="true">+</span></summary>
+      <div>{companyNavigation.map((item) => <a href={item.href} class:list={{ active: isActive(item.href) }}>{item.label}</a>)}</div>
+    </details>
+    <div class="mobile-actions"><a href="https://app.shieldifyip.ai">Log In</a><a href="/our-services#contact">Request Consultation</a></div>
+  </nav>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const menu = document.querySelector<HTMLElement>('[data-mobile-menu]');
+  const groups = [...document.querySelectorAll<HTMLDetailsElement>('[data-nav-group]')];
+
+  toggle?.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!open));
+    toggle.setAttribute('aria-label', open ? 'Open menu' : 'Close menu');
+    toggle.classList.toggle('is-open', !open);
+    if (menu) menu.hidden = open;
+  });
+
+  groups.forEach((group) => group.addEventListener('toggle', () => {
+    if (group.open) groups.forEach((item) => { if (item !== group) item.open = false; });
+  }));
+
+  document.addEventListener('click', (event) => {
+    const target = event.target;
+    if (target instanceof Node && !groups.some((group) => group.contains(target))) {
+      groups.forEach((group) => { group.open = false; });
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      groups.forEach((group) => { group.open = false; });
+      if (menu && !menu.hidden) {
+        menu.hidden = true;
+        toggle?.setAttribute('aria-expanded', 'false');
+        toggle?.setAttribute('aria-label', 'Open menu');
+        toggle?.classList.remove('is-open');
+        toggle?.focus();
+      }
+    }
+  });
+
+  menu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
+    menu.hidden = true;
+    toggle?.setAttribute('aria-expanded', 'false');
+    toggle?.classList.remove('is-open');
+  }));
+
+  const setHeader = () => header?.classList.toggle('is-stuck', window.scrollY > 20);
+  setHeader();
+  window.addEventListener('scroll', setHeader, { passive: true });
+</script>
+
+<style>
+  .enterprise-header{position:absolute;z-index:100;top:0;left:0;width:100%;height:88px;border-bottom:1px solid rgba(255,255,255,.06);transition:height .25s ease,background .25s ease,box-shadow .25s ease,backdrop-filter .25s ease}.enterprise-header.is-stuck{position:fixed;height:76px;background:rgba(7,11,19,.92);box-shadow:0 12px 35px rgba(0,0,0,.28);backdrop-filter:blur(16px)}.enterprise-header__inner{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;width:min(1360px,calc(100% - 48px));height:100%;margin:auto}.enterprise-logo{display:inline-flex;justify-self:start;width:158px}.enterprise-nav{display:flex;align-items:center;justify-self:center;gap:2px;color:#fff}.nav-direct,.nav-group>summary{position:relative;display:flex;align-items:center;gap:7px;padding:13px 15px;color:rgba(255,255,255,.84);font-family:var(--heading);font-size:14px;font-weight:600;line-height:1;cursor:pointer;list-style:none;transition:color .2s ease}.nav-group>summary::-webkit-details-marker{display:none}.nav-group>summary span{color:var(--muted);font-size:15px;transition:transform .2s ease}.nav-group[open]>summary span{transform:rotate(180deg)}.nav-direct::after,.nav-group>summary::after{position:absolute;right:15px;bottom:5px;left:15px;height:2px;border-radius:999px;background:var(--lime);content:'';opacity:0;transform:scaleX(.35);transition:opacity .2s ease,transform .2s ease}.nav-direct:hover,.nav-direct.active,.nav-group>summary:hover,.nav-group.is-current>summary,.nav-group[open]>summary{color:#fff}.nav-direct.active::after,.nav-group.is-current>summary::after,.nav-group[open]>summary::after{opacity:1;transform:scaleX(1)}.nav-group{position:relative}.nav-panel{position:absolute;top:calc(100% + 18px);left:0;padding:16px;border:1px solid rgba(255,255,255,.1);border-radius:14px;background:rgba(10,16,28,.98);box-shadow:0 24px 65px rgba(0,0,0,.48);backdrop-filter:blur(18px)}.nav-panel::before{position:absolute;right:0;bottom:100%;left:0;height:19px;content:''}.nav-panel--services{width:min(760px,calc(100vw - 48px));padding:24px}.nav-panel__heading{display:flex;align-items:flex-end;justify-content:space-between;gap:25px;padding:0 4px 20px;border-bottom:1px solid var(--border)}.nav-panel__heading div{display:grid;gap:4px}.nav-panel__heading div>span{color:var(--lime);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}.nav-panel__heading strong{color:#fff;font-size:18px}.nav-panel__heading>a{display:flex;gap:7px;color:var(--lime);font-size:12px;font-weight:700}.service-menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:14px}.service-menu-grid>a{display:grid;grid-template-columns:38px 1fr;gap:12px;padding:14px;border-radius:10px;transition:background .2s ease}.service-menu-grid>a:hover,.service-menu-grid>a.active{background:rgba(185,251,106,.08)}.service-menu-grid img{width:28px;height:28px}.service-menu-grid span{display:grid;gap:5px}.service-menu-grid strong,.nav-panel--compact strong{color:#fff;font-size:14px;line-height:1.35}.service-menu-grid small,.nav-panel--compact small{color:rgba(255,255,255,.62);font-size:12px;line-height:1.5}.nav-panel--compact{display:grid;width:290px;gap:4px}.nav-panel--compact>a{display:grid;gap:4px;padding:13px;border-radius:9px}.nav-panel--compact>a:hover,.nav-panel--compact>a.active{background:rgba(185,251,106,.08)}.nav-panel--right{right:0;left:auto}.enterprise-actions{display:flex;align-items:center;justify-self:end;gap:12px}.portal-link{display:flex;align-items:center;gap:7px;padding:11px 10px;color:#fff;font-family:var(--heading);font-size:13px;font-weight:600}.portal-link span{color:var(--lime)}.header-cta{display:flex;align-items:center;gap:12px;min-height:44px;padding:5px 6px 5px 18px;border:1px solid var(--lime);border-radius:8px;background:var(--lime);color:#090d16;font-family:var(--heading);font-size:12px;font-weight:700;transition:transform .2s ease,box-shadow .2s ease}.header-cta:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(185,251,106,.17)}.header-cta span{display:grid;place-items:center;width:30px;height:30px;border-radius:6px;background:#090d16;color:#fff;font-size:15px}.enterprise-menu-toggle,.enterprise-mobile-nav{display:none}.enterprise-menu-toggle{width:42px;height:42px;padding:9px;border:1px solid var(--border);border-radius:8px;background:rgba(9,13,22,.7)}.enterprise-menu-toggle span{display:block;width:21px;height:2px;margin:4px auto;background:#fff;transition:transform .2s ease,opacity .2s ease}.enterprise-menu-toggle.is-open span:nth-child(1){transform:translateY(6px) rotate(45deg)}.enterprise-menu-toggle.is-open span:nth-child(2){opacity:0}.enterprise-menu-toggle.is-open span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+  .nav-panel--industry{left:50%;width:470px;padding:22px;transform:translateX(-50%)}.nav-panel__heading--industry{align-items:flex-start;gap:18px;padding-bottom:17px}.nav-panel__heading--industry strong{display:block;max-width:285px;font-size:16px;line-height:1.35}.nav-panel__heading--industry>a{flex:0 0 auto;white-space:nowrap}.industry-menu-list{display:grid;gap:3px;margin-top:12px}.industry-menu-list>a{display:grid;grid-template-columns:36px 1fr;gap:12px;padding:11px;border-radius:9px;transition:background .2s ease}.industry-menu-list>a:hover,.industry-menu-list>a.active{background:rgba(185,251,106,.08)}.industry-menu-list img{width:28px;height:28px;margin-top:2px}.industry-menu-list span{display:grid;gap:4px}.industry-menu-list strong{color:#fff;font-size:14px;line-height:1.35}.industry-menu-list small{color:rgba(255,255,255,.62);font-size:12px;line-height:1.45}
+  @media(max-width:1220px){.enterprise-nav,.enterprise-actions{display:none}.enterprise-header{height:74px}.enterprise-header.is-stuck{height:70px}.enterprise-header__inner{grid-template-columns:1fr auto;width:calc(100% - 30px)}.enterprise-logo{width:137px}.enterprise-menu-toggle{display:block;justify-self:end}.enterprise-mobile-nav{position:absolute;top:calc(100% + 8px);right:15px;left:15px;max-height:calc(100vh - 96px);overflow:auto;padding:12px;border:1px solid rgba(255,255,255,.1);border-radius:14px;background:rgba(9,14,24,.98);box-shadow:0 25px 65px rgba(0,0,0,.5);backdrop-filter:blur(18px)}.enterprise-mobile-nav:not([hidden]){display:block}.enterprise-mobile-nav details{border-bottom:1px solid var(--border)}.enterprise-mobile-nav summary,.mobile-direct{display:flex;align-items:center;justify-content:space-between;padding:15px 13px;color:#fff;font-family:var(--heading);font-size:15px;font-weight:700;cursor:pointer;list-style:none}.enterprise-mobile-nav summary::-webkit-details-marker{display:none}.enterprise-mobile-nav details[open] summary span{transform:rotate(45deg)}.enterprise-mobile-nav details>div{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:0 7px 12px}.enterprise-mobile-nav details a{padding:10px;border-radius:8px;color:rgba(255,255,255,.72);font-size:12px}.enterprise-mobile-nav a.active,.enterprise-mobile-nav details a:hover{background:rgba(185,251,106,.08);color:var(--lime)}.enterprise-mobile-nav .mobile-overview{color:#fff}.mobile-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:14px 5px 4px}.mobile-actions a{display:grid;place-items:center;min-height:43px;border:1px solid var(--border);border-radius:8px;color:#fff;font-size:12px;font-weight:700}.mobile-actions a:last-child{border-color:var(--lime);background:var(--lime);color:#090d16}}
+  @media(max-width:560px){.enterprise-mobile-nav details>div{grid-template-columns:1fr}.mobile-actions{grid-template-columns:1fr}.enterprise-mobile-nav{right:10px;left:10px}.enterprise-logo{width:128px}}
+</style>

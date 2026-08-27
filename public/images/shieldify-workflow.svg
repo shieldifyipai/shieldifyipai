@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="600" viewBox="0 0 1180 600" role="img" aria-labelledby="title">
+  <title id="title">IP protection workflow dashboard</title>
+  <rect width="1180" height="600" rx="30" fill="#090d16"/>
+  <rect x="42" y="42" width="1096" height="516" rx="24" fill="#0e1421" stroke="#263248"/>
+  <g font-family="Inter,Arial,sans-serif">
+    <text x="80" y="102" font-size="28" font-weight="700" fill="#fff">Centralized Enforcement Workflow</text>
+    <text x="80" y="136" font-size="16" fill="#9aa7bb">From intake to review, filing, platform response, and case closure.</text>
+    <g fill="#141e31" stroke="#2a3750">
+      <rect x="80" y="190" width="220" height="292" rx="18"/><rect x="340" y="190" width="220" height="292" rx="18"/><rect x="600" y="190" width="220" height="292" rx="18"/><rect x="860" y="190" width="220" height="292" rx="18"/>
+    </g>
+    <g font-size="18" font-weight="700" fill="#fff">
+      <text x="112" y="240">New Evidence</text><text x="372" y="240">Legal Review</text><text x="632" y="240">Filed Cases</text><text x="892" y="240">Resolved</text>
+    </g>
+    <g font-size="14" fill="#9aa7bb">
+      <text x="112" y="290">URLs captured</text><text x="372" y="290">Ownership verified</text><text x="632" y="290">Notice submitted</text><text x="892" y="290">Result recorded</text>
+      <text x="112" y="326">Screenshots stored</text><text x="372" y="326">Claim checked</text><text x="632" y="326">Status tracked</text><text x="892" y="326">Reports updated</text>
+    </g>
+    <path d="M302 336h36M562 336h36M822 336h36" stroke="#b9fb6a" stroke-width="5" stroke-linecap="round"/>
+    <path d="M326 322l14 14-14 14M586 322l14 14-14 14M846 322l14 14-14 14" fill="none" stroke="#b9fb6a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

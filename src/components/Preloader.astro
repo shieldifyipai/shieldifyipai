@@ -1,0 +1,78 @@
+<div
+  class="site-preloader"
+  data-preloader
+  role="status"
+  aria-live="polite"
+  aria-label="Loading Shieldify IP"
+>
+  <div class="site-preloader__content">
+    <img src="/images/logo.svg" alt="Shieldify IP" width="141" height="34" />
+    <span class="site-preloader__line" aria-hidden="true"></span>
+  </div>
+</div>
+
+<noscript>
+  <style>
+    .site-preloader {
+      display: none !important;
+    }
+  </style>
+</noscript>
+
+<script is:inline>
+  (() => {
+    const preloader = document.querySelector('[data-preloader]');
+    if (!preloader) return;
+
+    const storageKey = 'shieldify-preloader-seen';
+    let hasBeenSeen = false;
+
+    try {
+      hasBeenSeen = sessionStorage.getItem(storageKey) === 'true';
+    } catch {
+      // Continue with the regular preloader when storage is unavailable.
+    }
+
+    if (hasBeenSeen) {
+      preloader.remove();
+      document.documentElement.classList.remove('is-loading');
+      return;
+    }
+
+    try {
+      sessionStorage.setItem(storageKey, 'true');
+    } catch {
+      // The visitor will see the preloader again if the browser blocks session storage.
+    }
+
+    document.documentElement.classList.add('is-loading');
+
+    const startedAt = performance.now();
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const minimumDuration = reduceMotion ? 0 : 650;
+    let isHidden = false;
+
+    const hidePreloader = () => {
+      if (isHidden) return;
+      isHidden = true;
+
+      const elapsed = performance.now() - startedAt;
+      const delay = Math.max(0, minimumDuration - elapsed);
+
+      window.setTimeout(() => {
+        preloader.classList.add('is-hidden');
+        document.documentElement.classList.remove('is-loading');
+        window.setTimeout(() => preloader.remove(), reduceMotion ? 0 : 500);
+      }, delay);
+    };
+
+    if (document.readyState === 'complete') {
+      hidePreloader();
+    } else {
+      window.addEventListener('load', hidePreloader, { once: true });
+    }
+
+    // Avoid trapping the visitor if a third-party resource never finishes loading.
+    window.setTimeout(hidePreloader, 3000);
+  })();
+</script>

@@ -1,0 +1,18 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  icon?: string;
+  href?: string;
+  class?: string;
+}
+const { title, description, icon, href, class: className = '' } = Astro.props;
+---
+<article class:list={['icon-card', 'reveal', className]}>
+  {icon && <span class="icon-card__icon"><img src={icon} alt="" width="30" height="30" loading="lazy" /></span>}
+  <h3>{title}</h3>
+  <p>{description}</p>
+  {href && <a class="icon-card__link" href={href} aria-label={`Explore ${title}`}>Explore service <span aria-hidden="true">→</span></a>}
+</article>
+
+<style>.icon-card__link{display:inline-flex;align-items:center;gap:8px;margin-top:20px;color:var(--lime);font-size:12px;font-weight:700}</style>

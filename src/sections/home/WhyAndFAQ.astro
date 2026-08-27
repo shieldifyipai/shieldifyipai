@@ -1,0 +1,20 @@
+---
+import Button from '@/components/Button.astro';
+import { faqs } from '@/data/home';
+---
+
+<section class="section home-faq" id="faqs">
+  <div class="container home-faq__layout">
+    <div class="home-faq__intro">
+      <span class="eyebrow">Frequently Asked Questions</span>
+      <h2>Clear Expectations Before Protection Work Begins</h2>
+      <p>Common questions about monitoring, ownership records, evidence, enforcement support, case tracking and third-party outcomes.</p>
+      <Button href="/our-services#contact">Ask About Your Scenario</Button>
+    </div>
+    <div class="home-faq__items">{faqs.map(([question, answer], index) => <details open={index === 0}><summary>{question}<span aria-hidden="true">+</span></summary><p>{answer}</p></details>)}</div>
+  </div>
+</section>
+
+<style>
+  .home-faq__layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:90px}.home-faq__intro{position:sticky;top:120px;align-self:start}.home-faq__intro h2{margin:20px 0;font-size:47px;letter-spacing:-.038em}.home-faq__intro p{margin-bottom:28px}.home-faq__items{border-top:1px solid var(--border)}.home-faq__items details{padding:0 25px;border-bottom:1px solid var(--border);background:var(--surface)}.home-faq__items summary{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:25px 0;color:#fff;font-family:var(--heading);font-weight:600;cursor:pointer;list-style:none}.home-faq__items summary::-webkit-details-marker{display:none}.home-faq__items summary span{display:grid;place-items:center;flex:0 0 30px;width:30px;height:30px;border-radius:50%;background:#111b2b}.home-faq__items details[open] summary span{background:var(--lime);color:#090d16;transform:rotate(45deg)}.home-faq__items details p{padding:0 0 25px}@media(max-width:900px){.home-faq__layout{grid-template-columns:1fr;gap:45px}.home-faq__intro{position:static}}@media(max-width:600px){.home-faq__intro h2{font-size:34px}.home-faq__items details{padding:0 17px}.home-faq__items summary{padding:20px 0;font-size:14px}}
+</style>

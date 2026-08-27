@@ -1,0 +1,276 @@
+---
+import { site } from '@/data/site';
+
+interface Props {
+  compact?: boolean;
+}
+
+const { compact = false } = Astro.props;
+const endpoint = import.meta.env.PUBLIC_CONTACT_FORM_ENDPOINT?.trim() || '/api/contact';
+const action = endpoint || `mailto:${site.email}`;
+const formId = compact ? 'quick-contact' : 'contact-request';
+---
+
+<form
+  id={formId}
+  class:list={['contact-form', compact && 'contact-form--compact']}
+  action={action}
+  method="post"
+  enctype={endpoint ? 'multipart/form-data' : 'text/plain'}
+  data-contact-form
+  data-endpoint={endpoint}
+>
+  <input type="hidden" name="source" value={compact ? 'Homepage quick contact' : 'Services contact form'} />
+  <input type="hidden" name="page" value="" data-contact-page />
+
+  <div class="contact-form__trap" aria-hidden="true">
+    <label for={`${formId}-website`}>Leave this field empty</label>
+    <input id={`${formId}-website`} name="company_website" tabindex="-1" autocomplete="off" />
+  </div>
+
+  {compact ? (
+    <>
+      <div class="contact-form__compact-row">
+        <label>
+          <span class="sr-only">Business email</span>
+          <input
+            type="email"
+            name="email"
+            autocomplete="email"
+            inputmode="email"
+            placeholder="Your business email"
+            required
+          />
+        </label>
+        <button class="button button--primary" type="submit" data-submit-button>
+          <span data-submit-label>Request Consultation</span>
+          <span class="button__arrow" aria-hidden="true">→</span>
+        </button>
+      </div>
+      <p class="contact-form__privacy">
+        By submitting, you agree to our <a href="/privacy-policy">Privacy Policy</a>.
+      </p>
+    </>
+  ) : (
+    <>
+      <div class="form-row">
+        <label>
+          <span class="sr-only">Name</span>
+          <input name="name" autocomplete="name" placeholder="Name" minlength="2" required />
+        </label>
+        <label>
+          <span class="sr-only">Company</span>
+          <input name="company" autocomplete="organization" placeholder="Company" />
+        </label>
+      </div>
+      <label>
+        <span class="sr-only">Business email</span>
+        <input
+          type="email"
+          name="email"
+          autocomplete="email"
+          inputmode="email"
+          placeholder="Business Email"
+          required
+        />
+      </label>
+      <label>
+        <span class="sr-only">Tell us about your case</span>
+        <textarea
+          name="case"
+          rows="5"
+          minlength="20"
+          maxlength="3000"
+          placeholder="Tell us about the asset, platform, or infringement concern"
+          required></textarea>
+      </label>
+      <label class="contact-form__consent">
+        <input type="checkbox" name="privacy_consent" value="accepted" required />
+        <span>
+          I agree that Shieldify IP may use this information to respond to my request. See the
+          <a href="/privacy-policy">Privacy Policy</a>.
+        </span>
+      </label>
+      <button class="button button--primary" type="submit" data-submit-button>
+        <span data-submit-label>Request Consultation</span>
+        <span class="button__arrow" aria-hidden="true">→</span>
+      </button>
+    </>
+  )}
+
+  <p class="contact-form__status" role="status" aria-live="polite" data-form-status></p>
+</form>
+
+<script>
+  const forms = document.querySelectorAll<HTMLFormElement>('[data-contact-form]');
+
+  forms.forEach((form) => {
+    if (form.dataset.enhanced === 'true') return;
+    form.dataset.enhanced = 'true';
+
+    const endpoint = form.dataset.endpoint?.trim();
+    const status = form.querySelector<HTMLElement>('[data-form-status]');
+    const submitButton = form.querySelector<HTMLButtonElement>('[data-submit-button]');
+    const submitLabel = form.querySelector<HTMLElement>('[data-submit-label]');
+    const pageField = form.querySelector<HTMLInputElement>('[data-contact-page]');
+    const trap = form.elements.namedItem('company_website');
+
+    if (pageField) pageField.value = window.location.href;
+
+    const setStatus = (message: string, state: 'idle' | 'success' | 'error' = 'idle') => {
+      if (!status) return;
+      status.textContent = message;
+      status.dataset.state = state;
+    };
+
+    form.addEventListener('submit', async (event) => {
+      setStatus('');
+
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        form.reportValidity();
+        return;
+      }
+
+      if (trap instanceof HTMLInputElement && trap.value) {
+        event.preventDefault();
+        form.reset();
+        setStatus('Thank you. Your request has been received.', 'success');
+        return;
+      }
+
+      if (!endpoint) {
+        setStatus('Your email application is opening so you can send the request.');
+        return;
+      }
+
+      event.preventDefault();
+      submitButton?.setAttribute('disabled', '');
+      form.setAttribute('aria-busy', 'true');
+      if (submitLabel) submitLabel.textContent = 'Sending…';
+      setStatus('Sending your request…');
+
+      const controller = new AbortController();
+      const timeoutId = window.setTimeout(() => controller.abort(), 15000);
+
+      try {
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+          signal: controller.signal,
+        });
+
+        if (!response.ok) throw new Error(`Contact request failed with ${response.status}`);
+
+        form.reset();
+        if (pageField) pageField.value = window.location.href;
+        setStatus('Thank you. Your request has been sent. We will contact you shortly.', 'success');
+      } catch (error) {
+        const timedOut = error instanceof DOMException && error.name === 'AbortError';
+        setStatus(
+          timedOut
+            ? 'The request took too long. Please try again or email info@shieldifyip.com.'
+            : 'We could not send your request. Please try again or email info@shieldifyip.com.',
+          'error',
+        );
+      } finally {
+        window.clearTimeout(timeoutId);
+        submitButton?.removeAttribute('disabled');
+        form.removeAttribute('aria-busy');
+        if (submitLabel) submitLabel.textContent = 'Request Consultation';
+      }
+    });
+  });
+</script>
+
+<style>
+  .contact-form__trap {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .contact-form__consent {
+    display: grid;
+    grid-template-columns: 18px 1fr;
+    gap: 11px;
+    align-items: start;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .contact-form__compact-row {
+    display: flex;
+    padding: 5px;
+    border-radius: 999px;
+    background: var(--white);
+  }
+
+  .contact-form__compact-row label {
+    flex: 1;
+  }
+
+  .contact-form__consent input {
+    width: 18px;
+    height: 18px;
+    margin: 2px 0 0;
+    accent-color: var(--lime);
+  }
+
+  .contact-form__consent a,
+  .contact-form__privacy a {
+    color: var(--white);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .contact-form__privacy {
+    margin-top: 9px;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.45;
+    text-align: center;
+  }
+
+  .contact-form__status {
+    min-height: 24px;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .contact-form--compact .contact-form__status {
+    margin-top: 8px;
+    text-align: center;
+  }
+
+  .contact-form__status:empty {
+    display: none;
+  }
+
+  .contact-form__status[data-state='success'] {
+    color: var(--lime);
+  }
+
+  .contact-form__status[data-state='error'] {
+    color: #ff9d9d;
+  }
+
+  .contact-form [disabled] {
+    cursor: wait;
+    opacity: 0.68;
+  }
+
+  @media (max-width: 600px) {
+    .contact-form__compact-row {
+      display: grid;
+      padding: 7px;
+      border-radius: 14px;
+    }
+  }
+</style>

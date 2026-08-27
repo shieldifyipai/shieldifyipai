@@ -1,0 +1,47 @@
+---
+import PageHero from '@/components/PageHero.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import IconCard from '@/components/IconCard.astro';
+import Button from '@/components/Button.astro';
+import ContactForm from '@/components/ContactForm.astro';
+import { services, workflow, industries } from '@/data/services';
+---
+<PageHero title="Technology-Driven Intellectual Property Protection Services" current="Our Services" description="Shieldify IP provides structured intellectual property monitoring, evidence collection and enforcement support designed to help organizations protect trademarks, copyrighted works and brand identity across digital environments.">
+  <div class="services-hero-media container reveal">
+    <div class="services-hero-media__images"><img src="/images/shieldify-services-hero-ai.webp" alt="Shieldify IP services dashboard illustration" width="1718" height="916" loading="lazy" decoding="async" /><img src="/images/shieldify-services-workflow-ai.webp" alt="Shieldify IP protection workflow illustration" width="1983" height="793" loading="lazy" decoding="async" /></div>
+    <article><h2>Protection Built for Digital IP</h2><p>Monitor, document and organize potential infringement across marketplaces, social platforms, websites and search environments.</p><Button href="#contact">Request a Consultation</Button></article>
+  </div>
+</PageHero>
+
+<section class="section section--soft services-list">
+  <div class="container"><SectionHeading eyebrow="Our Services" title="Intellectual Property Protection Services" /><div class="cards-grid">{services.map(([title,description,icon,href]) => <IconCard title={title} description={description} icon={icon} href={href} />)}</div></div>
+</section>
+
+<section class="section workflow-list">
+  <div class="container"><SectionHeading eyebrow="Delivery Workflow" title="How Shieldify IP Delivers Protection" /><div class="cards-grid cards-grid--4">{workflow.map(([title,description],i) => <IconCard title={title} description={description} class={`step step-${i+1}`} />)}</div></div>
+</section>
+
+<section class="section industries">
+  <div class="container"><SectionHeading eyebrow="Industries" title="Industries We Support" /><div class="cards-grid cards-grid--4">{industries.map(([title,description,icon,href]) => <IconCard title={title} description={description} icon={`/images/shieldify-services-industry-${icon}.svg`} href={href} />)}</div></div>
+</section>
+
+<section class="section service-cases">
+  <div class="container service-cases__layout reveal">
+    <div><span class="eyebrow">Case Studies</span><h2>See How Protection Workflows Come Together</h2><p>Explore illustrative scenarios covering marketplace trademark misuse, copied digital content, and brand impersonation across social profiles and domains.</p></div>
+    <Button href="/case-studies" variant="outline">Explore Case Studies</Button>
+  </div>
+</section>
+
+<section class="section contact" id="contact">
+  <div class="container contact__layout">
+    <div class="reveal"><span class="eyebrow">Contact</span><h2>Need Protection?<br />Let's Talk</h2><p>Tell us which assets, platforms, or infringement concerns you want reviewed.</p><div class="contact__details"><div><small>Email</small><a href="mailto:info@shieldifyip.com">info@shieldifyip.com</a><span>Available upon request</span></div><div><small>Website</small><a href="https://shieldifyip.com">shieldifyip.com</a></div></div></div>
+    <ContactForm />
+  </div>
+</section>
+
+<style>
+.page-hero{padding-bottom:0}.services-hero-media{position:relative;margin-top:100px;text-align:left}.services-hero-media__images{display:grid;grid-template-columns:1fr 1fr;overflow:hidden;border-radius:15px}.services-hero-media__images img{width:100%;height:610px;object-fit:cover}.services-hero-media article{position:absolute;right:0;bottom:0;width:49%;padding:45px;background:var(--surface);border:1px solid var(--border);border-radius:12px}.services-hero-media article h2{font-size:30px;margin-bottom:15px}.services-hero-media article p{margin-bottom:25px}.services-list{padding-top:180px}.services-list .icon-card{min-height:300px;background:#090d16}.workflow-list{min-height:1500px}.workflow-list .icon-card{min-height:280px}.industries{background:#070b13}.industries .cards-grid{grid-template-columns:repeat(5,1fr)}.industries .icon-card{min-height:285px;background:transparent}.industries .icon-card__icon{width:45px;height:45px}.contact__layout{display:grid;grid-template-columns:1fr 1.15fr;gap:120px}.contact h2{font-size:54px;margin:20px 0}.contact__details{display:flex;gap:50px;margin-top:55px;padding-top:30px;border-top:1px solid var(--border)}.contact__details div{display:flex;flex-direction:column}.contact__details small{margin-bottom:12px}.contact__details a{color:#fff;font-weight:600}.contact__details span{font-size:13px}
+.service-cases{background:var(--surface-dark)}.service-cases__layout{display:flex;align-items:center;justify-content:space-between;gap:70px;padding:55px 60px;border:1px solid var(--border);border-radius:15px;background:var(--surface)}.service-cases__layout>div{max-width:760px}.service-cases h2{margin:18px 0;font-size:42px}.service-cases :global(.button){flex:none}
+@media(max-width:1100px){.industries .cards-grid{grid-template-columns:1fr 1fr}}@media(max-width:900px){.workflow-list{min-height:auto}.contact__layout{grid-template-columns:1fr;gap:60px}}
+@media(max-width:700px){.service-cases__layout{display:grid;gap:28px;padding:35px 25px}.service-cases h2{font-size:31px}.service-cases :global(.button){justify-self:start}}@media(max-width:600px){.services-hero-media{margin-top:65px}.services-hero-media__images{grid-template-columns:1fr}.services-hero-media__images img{height:280px}.services-hero-media article{position:relative;width:100%;margin-top:-1px;padding:25px}.services-hero-media article h2{font-size:21px}.services-list{padding-top:100px}.services-list .icon-card,.workflow-list .icon-card,.industries .icon-card{min-height:210px}.industries .cards-grid{grid-template-columns:1fr}.contact h2{font-size:34px}.contact__details{display:grid;gap:25px}.contact__layout{gap:45px}}
+</style>

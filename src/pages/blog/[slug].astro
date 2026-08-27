@@ -1,0 +1,135 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import BlogCard from '@/components/BlogCard.astro';
+import Button from '@/components/Button.astro';
+import { site } from '@/data/site';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const posts = (await getCollection('blog')).sort((a, b) => b.data.publishedDate.valueOf() - a.data.publishedDate.valueOf());
+const related = posts.filter((item) => item.id !== post.id && item.data.category === post.data.category).slice(0, 2);
+const fallbackRelated = related.length < 2
+  ? [...related, ...posts.filter((item) => item.id !== post.id && !related.some((relatedPost) => relatedPost.id === item.id))].slice(0, 2)
+  : related;
+const canonicalUrl = `${site.url}/blog/${post.id}`;
+const socialImage = `/images/og/${post.id}.jpg`;
+const imageUrl = new URL(socialImage, site.url).toString();
+const modifiedDate = (post.data.updatedDate ?? post.data.publishedDate).toISOString();
+const readingTime = Math.max(4, Math.ceil((post.body?.split(/\s+/).length ?? 0) / 220));
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: post.data.title,
+  description: post.data.description,
+  image: [imageUrl],
+  datePublished: post.data.publishedDate.toISOString(),
+  dateModified: modifiedDate,
+  author: { '@type': 'Organization', name: post.data.author, url: site.url },
+  publisher: { '@type': 'Organization', name: site.name, logo: { '@type': 'ImageObject', url: `${site.url}/images/logo.svg` } },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': canonicalUrl },
+  articleSection: post.data.category,
+  keywords: post.data.tags.join(', '),
+};
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: site.url },
+    { '@type': 'ListItem', position: 2, name: 'Blog', item: `${site.url}/blog` },
+    { '@type': 'ListItem', position: 3, name: post.data.title, item: canonicalUrl },
+  ],
+};
+---
+
+<BaseLayout
+  title={post.data.title}
+  metaTitle={`${post.data.seoTitle ?? post.data.title} – ${site.name}`}
+  description={post.data.description}
+  image={socialImage}
+  imageAlt={`${post.data.title} – Shieldify IP`}
+  canonicalPath={`/blog/${post.id}`}
+  ogType="article"
+  publishedDate={post.data.publishedDate.toISOString()}
+  modifiedDate={modifiedDate}
+  articleTags={post.data.tags}
+  schema={[articleSchema, breadcrumbSchema]}
+>
+  <article class="article">
+    <header class="article-hero">
+      <div class="container">
+        <nav class="article-breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a><span aria-hidden="true">/</span><a href="/blog">Blog</a><span aria-hidden="true">/</span><span>{post.data.category}</span>
+        </nav>
+        <a class="article-category" href={`/blog?category=${encodeURIComponent(post.data.category.toLowerCase())}`}>{post.data.category}</a>
+        <h1>{post.data.title}</h1>
+        <p>{post.data.description}</p>
+        <div class="article-meta">
+          <span>By {post.data.author}</span>
+          <time datetime={post.data.publishedDate.toISOString()}>{post.data.publishedDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</time>
+          <span>{readingTime} min read</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="container article-layout">
+      <main class="article-main">
+        {post.data.image && <img class="article-image" src={post.data.image} alt={post.data.imageAlt ?? ''} width={post.data.imageWidth} height={post.data.imageHeight} loading="lazy" decoding="async" />}
+        <div class="prose"><Content /></div>
+
+        <div class="article-disclaimer">
+          <strong>Important:</strong> This article provides general educational information, not legal advice. Requirements and enforcement options vary by jurisdiction, platform, and case. Consult qualified counsel for legal guidance.
+        </div>
+
+        <div class="article-tags" aria-label="Article tags">
+          <span>Topics</span>
+          {post.data.tags.map((tag) => <a href={`/blog?tag=${encodeURIComponent(tag.toLowerCase())}`}>{tag}</a>)}
+        </div>
+      </main>
+
+      <aside class="article-side">
+        <div>
+          <span class="eyebrow">Case Review</span>
+          <h2>Found Possible IP Misuse?</h2>
+          <p>Organize the asset, source URL, ownership record, and supporting evidence before choosing an enforcement path.</p>
+          <Button href="/our-services#contact">Request a Consultation</Button>
+        </div>
+      </aside>
+    </div>
+  </article>
+
+  {fallbackRelated.length > 0 && (
+    <section class="related section">
+      <div class="container">
+        <div class="related-heading"><span class="eyebrow">Continue Reading</span><h2>Related Insights</h2></div>
+        <div class="related-grid">
+          {fallbackRelated.map((item) => (
+            <BlogCard
+              title={item.data.title}
+              description={item.data.description}
+              date={item.data.publishedDate}
+              image={item.data.image}
+              imageAlt={item.data.imageAlt}
+              imageWidth={item.data.imageWidth}
+              imageHeight={item.data.imageHeight}
+              category={item.data.category}
+              tags={item.data.tags}
+              href={`/blog/${item.id}`}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+  .article-hero{padding:185px 0 95px;background:url('/images/hero-bg.svg') center top/cover no-repeat}.article-breadcrumb{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:38px;font-size:12px}.article-breadcrumb a:hover{color:var(--lime)}.article-category{display:inline-flex;padding:6px 12px;border-radius:999px;background:rgba(185,251,106,.12);color:var(--lime);font-size:12px}.article-hero h1{max-width:1050px;margin:22px 0;font-size:66px;letter-spacing:-.045em}.article-hero>div>p{max-width:800px;font-size:19px}.article-meta{display:flex;flex-wrap:wrap;gap:12px 25px;margin-top:30px;font-size:12px}.article-meta>*+*::before{margin-right:25px;color:var(--border);content:'•'}.article-layout{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:75px;padding-top:80px;padding-bottom:130px}.article-image{width:100%;aspect-ratio:16/9;border-radius:15px;object-fit:cover}.prose{max-width:850px;margin:65px auto 0;color:rgba(255,255,255,.72);font-size:17px;line-height:1.82}.prose :global(h2){margin:60px 0 22px;font-size:38px;letter-spacing:-.025em}.prose :global(h3){margin:42px 0 16px;font-size:25px}.prose :global(p),.prose :global(ul),.prose :global(ol){margin:20px 0}.prose :global(ul),.prose :global(ol){padding-left:24px}.prose :global(li+li){margin-top:9px}.prose :global(strong){color:#fff}.prose :global(a){color:var(--lime);text-decoration:underline;text-underline-offset:3px}.prose :global(blockquote){margin:35px 0;padding:22px 25px;border-left:3px solid var(--lime);background:var(--surface);color:#fff}.prose :global(hr){margin:50px 0;border:0;border-top:1px solid var(--border)}.article-disclaimer{max-width:850px;margin:45px auto 0;padding:22px 25px;border:1px solid var(--border);border-radius:10px;background:var(--surface);font-size:13px}.article-disclaimer strong{color:#fff}.article-tags{display:flex;flex-wrap:wrap;align-items:center;gap:9px;max-width:850px;margin:28px auto 0}.article-tags>span{margin-right:4px;color:#fff;font-size:12px;font-weight:700}.article-tags a{padding:7px 10px;border:1px solid var(--border);border-radius:999px;font-size:11px}.article-tags a:hover{border-color:var(--lime);color:var(--lime)}.article-side{position:relative}.article-side>div{position:sticky;top:125px;padding:29px;border:1px solid var(--border);border-radius:12px;background:var(--surface)}.article-side h2{margin:20px 0 14px;font-size:25px}.article-side p{margin-bottom:23px;font-size:13px}.article-side :global(.button){width:100%}.related{background:var(--surface-dark)}.related-heading{margin-bottom:45px}.related-heading h2{margin-top:16px;font-size:44px}.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  @media(max-width:950px){.article-layout{grid-template-columns:1fr}.article-side>div{position:static}.related-grid{grid-template-columns:1fr}.article-hero h1{font-size:54px}}
+  @media(max-width:600px){.article-hero{padding:135px 0 70px}.article-breadcrumb{margin-bottom:28px}.article-hero h1{font-size:38px;line-height:1.16}.article-hero>div>p{font-size:16px}.article-meta{gap:8px 14px}.article-meta>*+*::before{margin-right:14px}.article-layout{gap:45px;padding-top:45px;padding-bottom:90px}.prose{margin-top:42px;font-size:16px}.prose :global(h2){margin-top:48px;font-size:29px}.prose :global(h3){font-size:22px}.related-heading h2{font-size:34px}}
+</style>

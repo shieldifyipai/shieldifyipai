@@ -1,0 +1,31 @@
+---
+import Button from '@/components/Button.astro';
+
+const principles = [
+  ['Evidence Before Action', 'Keep source URLs, screenshots, timestamps, ownership support and review context connected.', '/images/shieldify-avatar-evidence-1.svg'],
+  ['Context-Aware Review', 'A matching name, image or listing is a signal for review, not an automatic infringement conclusion.', '/images/shieldify-avatar-monitoring-1.svg'],
+  ['No Overstated Claims', 'Third-party platforms, hosts and registrars retain control over their own decisions and outcomes.', '/images/shieldify-avatar-governance-1.svg'],
+  ['Transparent Case History', 'Track what was observed, reviewed, submitted, answered and closed from one accountable record.', '/images/shieldify-avatar-workflow-1.svg'],
+];
+---
+
+<section class="section home-trust">
+  <div class="container home-trust__panel reveal">
+    <div class="home-trust__statement">
+      <span>Responsible IP Operations</span>
+      <h2>Professional Review Without Automatic Conclusions</h2>
+      <p>Technology can help organize relevant public signals. Reliable action still depends on evidence, context, authority and appropriate professional judgment.</p>
+      <Button href="/about-us" variant="dark">About Shieldify IP</Button>
+    </div>
+    <div class="home-trust__principles">
+      <div class="home-trust__principles-heading"><span class="eyebrow">Trust & Governance</span><p>Four principles guide how findings become reviewable case records.</p></div>
+      <div class="home-trust__grid">
+        {principles.map(([title, description, icon]) => <article><img src={icon} alt="" width="38" height="38" loading="lazy" decoding="async" /><h3>{title}</h3><p>{description}</p></article>)}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .home-trust{background:var(--surface-dark)}.home-trust__panel{display:grid;grid-template-columns:.82fr 1.18fr;overflow:hidden;padding:0;border:1px solid var(--border);border-radius:17px;background:var(--surface)}.home-trust__statement{display:flex;flex-direction:column;justify-content:center;min-height:650px;padding:58px;background:var(--lime);color:#17220f}.home-trust__statement>span{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.home-trust__statement h2{margin:22px 0;color:#090d16;font-size:48px;letter-spacing:-.042em}.home-trust__statement p{margin-bottom:30px;color:#1a2615}.home-trust__statement :global(.button){align-self:flex-start}.home-trust__principles{padding:52px}.home-trust__principles-heading{display:flex;align-items:center;justify-content:space-between;gap:30px;margin-bottom:30px}.home-trust__principles-heading p{max-width:330px;font-size:13px}.home-trust__grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.home-trust article{min-height:230px;padding:25px;border:1px solid var(--border);border-radius:11px;background:#090d16}.home-trust article img{width:44px;height:44px;padding:10px;border-radius:10px;background:rgba(185,251,106,.08)}.home-trust article h3{margin:25px 0 12px;font-size:18px}.home-trust article p{font-size:13px}@media(max-width:950px){.home-trust__panel{grid-template-columns:1fr}.home-trust__statement{min-height:auto}.home-trust__principles-heading{align-items:flex-start}}@media(max-width:600px){.home-trust__statement,.home-trust__principles{padding:38px 25px}.home-trust__statement h2{font-size:35px}.home-trust__principles-heading{display:grid}.home-trust__grid{grid-template-columns:1fr}.home-trust article{min-height:auto}}
+</style>

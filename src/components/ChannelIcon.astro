@@ -1,0 +1,59 @@
+---
+interface Props {
+  name: 'web' | 'marketplace' | 'search' | 'social' | 'video' | 'apps' | 'advertising';
+}
+
+const { name } = Astro.props;
+---
+
+<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round">
+  {name === 'web' && (
+    <>
+      <circle cx="12" cy="12" r="8.25" />
+      <path d="M3.75 12h16.5M12 3.75c2.15 2.25 3.25 5 3.25 8.25S14.15 18 12 20.25C9.85 18 8.75 15.25 8.75 12S9.85 6 12 3.75Z" />
+    </>
+  )}
+  {name === 'marketplace' && (
+    <>
+      <path d="M5 8.25 6.3 4h11.4L19 8.25M4 8.25h16M5.25 8.25v11h13.5v-11" />
+      <path d="M9 19.25v-5.5h6v5.5M4 8.25c0 1.35 1.05 2.25 2.25 2.25s2.25-.9 2.25-2.25c0 1.35 1.05 2.25 2.25 2.25S13 9.6 13 8.25c0 1.35 1.05 2.25 2.25 2.25s2.25-.9 2.25-2.25c0 1.35 1.05 2.25 2.25 2.25" />
+    </>
+  )}
+  {name === 'search' && (
+    <>
+      <circle cx="10.5" cy="10.5" r="6.25" />
+      <path d="m15.1 15.1 4.65 4.65M10.5 7.5v6M7.5 10.5h6" />
+    </>
+  )}
+  {name === 'social' && (
+    <>
+      <circle cx="18" cy="5.25" r="2.25" />
+      <circle cx="6" cy="12" r="2.25" />
+      <circle cx="18" cy="18.75" r="2.25" />
+      <path d="m8 10.9 8-4.5M8 13.1l8 4.5" />
+    </>
+  )}
+  {name === 'video' && (
+    <>
+      <rect x="3.5" y="5" width="17" height="14" rx="3" />
+      <path d="m10 9 5 3-5 3V9Z" />
+    </>
+  )}
+  {name === 'apps' && (
+    <>
+      <rect x="4" y="4" width="6" height="6" rx="1.4" />
+      <rect x="14" y="4" width="6" height="6" rx="1.4" />
+      <rect x="4" y="14" width="6" height="6" rx="1.4" />
+      <rect x="14" y="14" width="6" height="6" rx="1.4" />
+    </>
+  )}
+  {name === 'advertising' && (
+    <>
+      <path d="M4 11v3.5h3.5l8 3.5V7.5l-8 3.5H4ZM15.5 10h2.25a2.25 2.25 0 0 1 0 4.5H15.5M7.5 14.5l1.25 5h3" />
+    </>
+  )}
+</svg>
+
+<style>
+  svg{display:block;width:22px;height:22px}
+</style>

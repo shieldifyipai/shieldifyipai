@@ -1,0 +1,142 @@
+---
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import Preloader from '@/components/Preloader.astro';
+import '@/styles/global.css';
+import { site } from '@/data/site';
+
+interface Props {
+  title: string;
+  metaTitle?: string;
+  description: string;
+  image?: string;
+  imageAlt?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  noindex?: boolean;
+  canonicalPath?: string;
+  ogType?: 'website' | 'article';
+  publishedDate?: string;
+  modifiedDate?: string;
+  articleTags?: string[];
+  schema?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const {
+  title,
+  metaTitle,
+  description,
+  image = '/images/og/shieldify-ip.jpg',
+  imageAlt,
+  imageWidth = 1200,
+  imageHeight = 630,
+  noindex = false,
+  canonicalPath = Astro.url.pathname,
+  ogType = 'website',
+  publishedDate,
+  modifiedDate,
+  articleTags = [],
+  schema,
+} = Astro.props;
+const canonical = new URL(canonicalPath, site.url);
+const socialImage = new URL(image, site.url);
+const pageTitle = metaTitle ?? (title === site.name ? `${site.name} – Trademark Protection & Brand Defense` : `${title} – ${site.name}`);
+const socialImageAlt = imageAlt ?? `${pageTitle} social preview`;
+const socialImageType = image.endsWith('.jpg') || image.endsWith('.jpeg')
+  ? 'image/jpeg'
+  : image.endsWith('.png')
+    ? 'image/png'
+    : image.endsWith('.webp')
+      ? 'image/webp'
+      : undefined;
+const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION?.trim();
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': `${site.url}/#organization`,
+  name: site.name,
+  url: site.url,
+  logo: `${site.url}/images/logo.svg`,
+  description: site.description,
+  email: site.email,
+};
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${site.url}/#website`,
+  name: site.name,
+  alternateName: 'ShieldifyIP',
+  url: site.url,
+  description: site.description,
+  inLanguage: 'en',
+  publisher: { '@id': `${site.url}/#organization` },
+};
+const additionalSchemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={site.name} />
+    <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large'} />
+    {googleSiteVerification && <meta name="google-site-verification" content={googleSiteVerification} />}
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" type="application/rss+xml" title={`${site.name} Blog`} href="/rss.xml" />
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+    <link rel="preload" href="/images/logo.svg" as="image" type="image/svg+xml" />
+    <link rel="preload" href="/fonts/inter-regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/jakarta-600.woff2" as="font" type="font/woff2" crossorigin />
+    <meta name="theme-color" content="#090d16" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:secure_url" content={socialImage} />
+    {socialImageType && <meta property="og:image:type" content={socialImageType} />}
+    <meta property="og:image:width" content={String(imageWidth)} />
+    <meta property="og:image:height" content={String(imageHeight)} />
+    <meta property="og:image:alt" content={socialImageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+    <meta name="twitter:image:alt" content={socialImageAlt} />
+    <script is:inline>
+      (() => {
+        try {
+          if (sessionStorage.getItem('shieldify-preloader-seen') === 'true') {
+            document.documentElement.classList.add('preloader-seen');
+          }
+        } catch {
+          // Storage can be unavailable in strict privacy modes; the preloader still works normally.
+        }
+      })();
+    </script>
+    {publishedDate && <meta property="article:published_time" content={publishedDate} />}
+    {modifiedDate && <meta property="article:modified_time" content={modifiedDate} />}
+    {articleTags.map((tag) => <meta property="article:tag" content={tag} />)}
+    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} is:inline />
+    <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} is:inline />
+    {additionalSchemas.map((item) => <script type="application/ld+json" set:html={JSON.stringify(item)} is:inline />)}
+  </head>
+  <body>
+    <Preloader />
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <Header />
+    <main id="main-content"><slot /></main>
+    <Footer />
+    <script>
+      const reveal = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => entry.isIntersecting && entry.target.classList.add('is-visible'));
+      }, { threshold: 0.08 });
+      document.querySelectorAll('.reveal').forEach((element) => reveal.observe(element));
+    </script>
+  </body>
+</html>

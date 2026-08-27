@@ -1,0 +1,36 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ServicesContent from '@/sections/services/ServicesContent.astro';
+import { services } from '@/data/services';
+import { site } from '@/data/site';
+
+const pageDescription = 'Explore Shieldify IP trademark protection, copyright protection, brand monitoring, counterfeit detection, evidence collection, and enforcement support services.';
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Intellectual Property Protection Services',
+  url: `${site.url}/our-services`,
+  description: pageDescription,
+  provider: { '@id': `${site.url}/#organization` },
+  areaServed: 'Worldwide',
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'IP Protection Services',
+    itemListElement: services.map(([name, description]) => ({
+      '@type': 'Offer',
+      itemOffered: { '@type': 'Service', name, description },
+    })),
+  },
+};
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: site.url },
+    { '@type': 'ListItem', position: 2, name: 'Our Services', item: `${site.url}/our-services` },
+  ],
+};
+---
+<BaseLayout title="Our Services" description={pageDescription} schema={[serviceSchema, breadcrumbSchema]}>
+  <ServicesContent />
+</BaseLayout>

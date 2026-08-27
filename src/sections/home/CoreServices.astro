@@ -1,0 +1,19 @@
+---
+import Button from '@/components/Button.astro';
+import IconCard from '@/components/IconCard.astro';
+import { coreServices } from '@/data/home';
+---
+
+<section class="section core-services">
+  <div class="container">
+    <div class="core-services__heading">
+      <div><span class="eyebrow">Core Protection Services</span><h2>Technology-Driven IP Enforcement Support</h2></div>
+      <div><p>A practical operating layer for monitoring, reviewing, documenting and managing intellectual property cases across digital channels.</p><Button href="/our-services" variant="outline">View All Services</Button></div>
+    </div>
+    <div class="cards-grid">{coreServices.map((service) => <IconCard {...service} />)}</div>
+  </div>
+</section>
+
+<style>
+  .core-services{background:var(--bg) url('/images/dark-bg-linear1.webp') center/cover no-repeat}.core-services__heading{display:grid;grid-template-columns:1.25fr .75fr;gap:90px;align-items:end;margin-bottom:58px}.core-services__heading h2{max-width:760px;margin-top:18px;font-size:51px;letter-spacing:-.04em}.core-services__heading>div:last-child p{margin-bottom:24px}.core-services :global(.icon-card){min-height:310px}.core-services :global(.icon-card__link){margin-top:auto;padding-top:24px}@media(max-width:850px){.core-services__heading{grid-template-columns:1fr;gap:25px}.core-services__heading h2{font-size:42px}}@media(max-width:600px){.core-services__heading{margin-bottom:40px}.core-services__heading h2{font-size:34px}}
+</style>

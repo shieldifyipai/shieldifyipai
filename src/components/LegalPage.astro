@@ -1,0 +1,9 @@
+---
+interface Section { title: string; paragraphs?: string[]; items?: string[]; }
+interface Props { title: string; intro: string; updated: string; sections: Section[]; }
+const { title, intro, updated, sections } = Astro.props;
+---
+<article class="legal container">
+  <h1>{title}</h1><p>{intro}</p><p><strong>Last updated:</strong> {updated}</p>
+  {sections.map((section) => <section><h2>{section.title}</h2>{section.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}{section.items && <ul>{section.items.map((item) => <li>{item}</li>)}</ul>}</section>)}
+</article>

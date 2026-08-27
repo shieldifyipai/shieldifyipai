@@ -1,0 +1,110 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Button from '@/components/Button.astro';
+import { industryNavigation, site } from '@/data/site';
+
+const entries = await getCollection('industries');
+const industries = industryNavigation.flatMap((navItem) => {
+  const id = navItem.href.split('/').filter(Boolean).at(-1);
+  const entry = entries.find((item) => item.id === id);
+  return entry ? [{ ...entry, navLabel: navItem.label }] : [];
+});
+const pageDescription = 'Explore structured intellectual property monitoring, evidence and enforcement workflows designed around the digital risks of different industries.';
+const collectionSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: `Industries - ${site.name}`,
+  description: pageDescription,
+  url: `${site.url}/industries`,
+  inLanguage: 'en',
+  isPartOf: { '@id': `${site.url}/#website` },
+  hasPart: industries.map((item) => ({
+    '@type': 'WebPage',
+    name: item.data.title,
+    description: item.data.description,
+    url: `${site.url}/industries/${item.id}`,
+  })),
+};
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: site.url },
+    { '@type': 'ListItem', position: 2, name: 'Industries', item: `${site.url}/industries` },
+  ],
+};
+---
+
+<BaseLayout
+  title="Industries"
+  metaTitle={`Industry IP Protection Solutions - ${site.name}`}
+  description={pageDescription}
+  image="/images/og/shieldify-ip.jpg"
+  imageAlt="Shieldify IP industry protection solutions"
+  canonicalPath="/industries"
+  schema={[collectionSchema, breadcrumbSchema]}
+>
+  <section class="industries-hero">
+    <div class="container">
+      <nav aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><strong>Industries</strong></nav>
+      <span class="eyebrow">Industry Solutions</span>
+      <h1>IP Protection Built Around How Your Industry Operates</h1>
+      <p>Different industries face different channels, evidence requirements, ownership structures and review priorities. Choose your environment to explore a more relevant protection workflow.</p>
+      <Button href="#industry-solutions">Explore Industries</Button>
+    </div>
+  </section>
+
+  <section class="industry-library section" id="industry-solutions">
+    <div class="container">
+      <div class="industry-heading">
+        <span class="eyebrow">Choose Your Environment</span>
+        <h2>Protection Paths for Digital-First Organizations</h2>
+        <p>Each page connects common risk signals with the services, evidence and operating workflow most relevant to that environment.</p>
+      </div>
+      <div class="industry-grid">
+        {industries.map((item, index) => (
+          <article class:list={['industry-card', 'reveal', { 'industry-card--wide': index < 2 }]}>
+            <div class="industry-card__top">
+              <img src={item.data.icon} alt="" width="44" height="44" loading="lazy" decoding="async" />
+              <span>{String(index + 1).padStart(2, '0')}</span>
+            </div>
+            <h2><a href={`/industries/${item.id}`}>{item.navLabel}</a></h2>
+            <p>{item.data.description}</p>
+            <div class="industry-card__channels">{item.data.channels.slice(0, 3).map((channel) => <span>{channel}</span>)}</div>
+            <a class="industry-card__link" href={`/industries/${item.id}`}>Explore industry solution <span aria-hidden="true">→</span></a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="industry-model section section--soft">
+    <div class="container">
+      <div class="industry-heading">
+        <span class="eyebrow">Shared Operating Model</span>
+        <h2>One Disciplined Workflow, Adapted to Each Industry</h2>
+        <p>The channels and risk signals change, but reliable protection still depends on connected rights information, evidence, review and response history.</p>
+      </div>
+      <ol class="industry-model__grid">
+        <li><span>01</span><h3>Define Rights & Scope</h3><p>Map the assets, owners, territories, authorized use and priority channels that shape the review baseline.</p></li>
+        <li><span>02</span><h3>Monitor Relevant Signals</h3><p>Review public digital environments using references and priorities appropriate to the organization.</p></li>
+        <li><span>03</span><h3>Preserve & Review Evidence</h3><p>Connect each finding to source context and ownership records before choosing an escalation path.</p></li>
+        <li><span>04</span><h3>Act, Track & Report</h3><p>Support appropriate actions while retaining decisions, responses, recurrence and closure history.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="industry-closing section">
+    <div class="container">
+      <span class="eyebrow">Not Sure Where to Start?</span>
+      <h2>Define a Protection Scope Around Your Real Digital Risk</h2>
+      <p>Share the assets, channels and operating context that matter to your organization. Shieldify IP can help identify a practical starting point without assuming that every finding requires the same response.</p>
+      <Button href="/our-services#contact">Request a Consultation</Button>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .industries-hero{min-height:720px;padding:205px 0 115px;text-align:center;background:url('/images/hero-bg.svg') center top/cover no-repeat}.industries-hero nav{display:flex;justify-content:center;gap:12px;margin-bottom:30px;font-size:13px}.industries-hero h1{max-width:1050px;margin:22px auto 25px;font-size:72px;letter-spacing:-.048em}.industries-hero p{max-width:780px;margin:0 auto 32px;font-size:18px}.industry-heading{max-width:790px;margin-bottom:55px}.industry-heading h2{margin:18px 0;font-size:50px;letter-spacing:-.038em}.industry-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:20px}.industry-card{display:flex;grid-column:span 2;flex-direction:column;min-height:400px;padding:34px;border:1px solid var(--border);border-radius:14px;background:var(--surface);transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}.industry-card--wide{grid-column:span 3}.industry-card:hover{transform:translateY(-5px);border-color:rgba(185,251,106,.34);box-shadow:0 22px 55px rgba(0,0,0,.24)}.industry-card__top{display:flex;align-items:center;justify-content:space-between;margin-bottom:38px}.industry-card__top img{width:48px;height:48px;padding:12px;border:1px solid rgba(185,251,106,.22);border-radius:12px;background:rgba(185,251,106,.07)}.industry-card__top>span{color:var(--muted);font-size:12px;font-weight:700}.industry-card h2{font-size:28px;line-height:1.25}.industry-card h2 a:hover{color:var(--lime)}.industry-card>p{margin:17px 0 24px;font-size:14px}.industry-card__channels{display:flex;flex-wrap:wrap;gap:7px}.industry-card__channels span{padding:5px 9px;border:1px solid var(--border);border-radius:999px;font-size:10px}.industry-card__link{display:inline-flex;align-items:center;gap:8px;margin-top:auto;padding-top:28px;color:var(--lime);font-size:13px;font-weight:700}.industry-model__grid{display:grid;grid-template-columns:repeat(4,1fr);margin:0;padding:0;list-style:none}.industry-model__grid li{padding:32px;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}.industry-model__grid li+li{border-left:1px solid var(--border)}.industry-model__grid li>span{display:grid;place-items:center;width:42px;height:42px;margin-bottom:28px;border-radius:10px;background:var(--lime);color:#090d16;font-size:12px;font-weight:800}.industry-model__grid h3{margin-bottom:13px;font-size:20px}.industry-model__grid p{font-size:14px}.industry-closing{text-align:center}.industry-closing .container{max-width:900px}.industry-closing h2{margin:20px auto;font-size:52px;letter-spacing:-.04em}.industry-closing p{margin-bottom:30px}@media(max-width:980px){.industries-hero h1{font-size:58px}.industry-grid{grid-template-columns:1fr 1fr}.industry-card,.industry-card--wide{grid-column:auto}.industry-model__grid{grid-template-columns:1fr 1fr}.industry-model__grid li:nth-child(3){border-left:0}}@media(max-width:650px){.industries-hero{min-height:auto;padding:145px 15px 80px}.industries-hero h1{font-size:39px;line-height:1.15}.industries-hero p{font-size:16px}.industry-heading{margin-bottom:38px}.industry-heading h2{font-size:34px}.industry-grid,.industry-model__grid{grid-template-columns:1fr}.industry-card{min-height:auto;padding:27px 24px}.industry-card__top{margin-bottom:28px}.industry-card h2{font-size:23px}.industry-model__grid li+li{border-left:0}.industry-closing h2{font-size:34px}}
+</style>

@@ -1,0 +1,42 @@
+---
+import { getCollection } from 'astro:content';
+import SectionHeading from '@/components/SectionHeading.astro';
+import CaseStudyCard from '@/components/CaseStudyCard.astro';
+import Button from '@/components/Button.astro';
+
+const cases = (await getCollection('caseStudies'))
+  .filter((item) => item.data.featured)
+  .sort((a, b) => b.data.publishedDate.valueOf() - a.data.publishedDate.valueOf())
+  .slice(0, 3);
+---
+
+<section class="section selected-cases">
+  <div class="container">
+    <SectionHeading
+      eyebrow="Case Studies"
+      title="See Structured IP Protection Workflows in Practice"
+      description="Illustrative scenarios showing how monitoring findings can become organized evidence, review queues, actions, and outcome records."
+    />
+    <div class="selected-cases__grid">
+      {cases.map((item) => (
+        <CaseStudyCard
+          title={item.data.title}
+          description={item.data.description}
+          href={`/case-studies/${item.id}`}
+          image={item.data.image}
+          imageAlt={item.data.imageAlt}
+          imageWidth={item.data.imageWidth}
+          imageHeight={item.data.imageHeight}
+          category={item.data.category}
+          industry={item.data.industry}
+          channels={item.data.channels}
+        />
+      ))}
+    </div>
+    <div class="selected-cases__action"><Button href="/case-studies" variant="outline">View All Case Studies</Button></div>
+  </div>
+</section>
+
+<style>
+  .selected-cases{background:var(--surface-dark)}.selected-cases__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}.selected-cases__action{margin-top:38px;text-align:center}@media(max-width:950px){.selected-cases__grid{grid-template-columns:1fr 1fr}}@media(max-width:650px){.selected-cases__grid{grid-template-columns:1fr}}
+</style>

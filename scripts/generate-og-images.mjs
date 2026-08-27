@@ -1,4 +1,4 @@
-import { mkdir } from 'node:fs/promises';
+import { mkdir, readFile, readdir } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
@@ -6,6 +6,7 @@ import sharp from 'sharp';
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const outputDirectory = resolve(projectRoot, 'public/images/og');
 const logoPath = resolve(projectRoot, 'public/images/logo.svg');
+const blogDirectory = resolve(projectRoot, 'src/content/blog');
 
 const cards = [
   {
@@ -93,6 +94,26 @@ const cards = [
     description: 'Case readiness, submissions, responses and reporting.',
   },
 ];
+
+const existingCardFiles = new Set(cards.map((card) => card.file));
+const blogFiles = (await readdir(blogDirectory)).filter((file) => file.endsWith('.md') || file.endsWith('.mdx'));
+
+for (const blogFile of blogFiles) {
+  const outputFile = `${blogFile.replace(/\.mdx?$/, '')}.jpg`;
+  if (existingCardFiles.has(outputFile)) continue;
+
+  const source = await readFile(resolve(blogDirectory, blogFile), 'utf8');
+  const title = source.match(/^title:\s*["'](.+)["']\s*$/m)?.[1];
+  const category = source.match(/^category:\s*["'](.+)["']\s*$/m)?.[1];
+  if (!title || !category) continue;
+
+  cards.push({
+    file: outputFile,
+    eyebrow: category.toUpperCase(),
+    title,
+    description: 'Practical guidance from the Shieldify IP knowledge center.',
+  });
+}
 
 const escapeXml = (value) => value
   .replaceAll('&', '&amp;')

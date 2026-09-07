@@ -169,6 +169,8 @@ Use the same email thread and case number when responding to follow-up questions
 
 ## What Happens After You Submit the Report?
 
+
+
 Meta typically sends an email confirming receipt. It may then:
 
 * Request further proof of ownership or authorization

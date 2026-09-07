@@ -76,13 +76,13 @@ Screenshots are useful supporting evidence, but they do not replace direct URLs.
 
 Use the trademark process when the complaint concerns a protected brand identifier. Other problems may require a different reporting route:
 
-| Issue                                                                      | Usually appropriate route          |
-| -------------------------------------------------------------------------- | ---------------------------------- |
-| Unauthorized use of a brand name or logo that may cause confusion          | Trademark report                   |
-| Fake goods bearing a protected mark                                        | Trademark/counterfeit report       |
-| Copied photographs, videos, artwork, or written material                   | Copyright report                   |
-| An account pretending to be a person or business without a trademark claim | Impersonation report               |
-| Fraud, phishing, or other harmful conduct                                  | Scam or Community Standards report |
+| **Issue**                                                                      | **Usually appropriate route**          |
+| ------------------------------------------------------------------------------ | -------------------------------------- |
+| **Unauthorized use of a brand name or logo that may cause confusion**          | **Trademark report**                   |
+| **Fake goods bearing a protected mark**                                        | **Trademark/counterfeit report**       |
+| **Copied photographs, videos, artwork, or written material**                   | **Copyright report**                   |
+| **An account pretending to be a person or business without a trademark claim** | **Impersonation report**               |
+| **Fraud, phishing, or other harmful conduct**                                  | **Scam or Community Standards report** |
 
 One piece of content may raise more than one issue. Keep each report legally focused and use the route that matches the right being enforced.
 

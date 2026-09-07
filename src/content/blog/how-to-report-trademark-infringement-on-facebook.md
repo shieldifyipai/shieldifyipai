@@ -94,7 +94,7 @@ Use Meta’s official [Trademark Report Form](https://www.facebook.com/help/cont
 
 Avoid forms or email addresses offered by unknown third-party websites. Starting from the official Meta Help Center reduces the risk of disclosing sensitive ownership documents to an impersonator.
 
-![](/images/blog/how-to-report-trademark-infringement-on-facebook/image.png)
+
 
 ### Step 2: State who is submitting the report
 
@@ -107,15 +107,11 @@ Enter complete and accurate contact information. If you are an authorized repres
 
 Meta advises that the rights owner’s name, the reporting party’s email address, and details of the report may be shared with the person who posted the reported content. Use an appropriate business contact rather than a personal address where possible.
 
-![](/images/blog/how-to-report-trademark-infringement-on-facebook/image.png)
-
 ### Step 3: Identify the trademark owner and the protected mark
 
 Enter the legal name of the rights owner exactly as it appears in the registration record. Identify the mark itself and provide the requested registration information, including the registration number, jurisdiction, and an official database link when available.
 
 If the report concerns a logo, attach or link to a clear representation of the registered design. If several different trademarks are involved, organize the evidence by mark and submit separate reports where the form or facts require it.
-
-![](/images/blog/how-to-report-trademark-infringement-on-facebook/image.png)
 
 ### Step 4: Add direct links to the infringing content
 
@@ -124,8 +120,6 @@ Provide URLs that lead directly to each allegedly infringing Page, profile, post
 Where possible, report the specific post, ad, or listing containing the infringing use—not only the account that published it. If the identity of the entire Page or profile is infringing, include the main account URL as well as representative content URLs.
 
 Before submitting, open every URL in a private browser window or another logged-in session to confirm that it resolves to the intended content.
-
-![](/images/blog/how-to-report-trademark-infringement-on-facebook/image.png)
 
 ### Step 5: Explain how the content infringes the trademark
 
@@ -145,7 +139,7 @@ A useful explanation identifies:
 
 Only include statements you can support with evidence. Do not call products counterfeit unless there is a reasonable basis for that conclusion.
 
-![](/images/blog/how-to-report-trademark-infringement-on-facebook/image.png)
+
 
 ### Step 6: Review the declarations and sign the report
 
@@ -165,11 +159,7 @@ After submission, save:
 
 Use the same email thread and case number when responding to follow-up questions. This helps Meta connect additional information to the existing report.
 
-![](/images/blog/how-to-report-trademark-infringement-on-facebook/image.png)
-
 ## What Happens After You Submit the Report?
-
-
 
 Meta typically sends an email confirming receipt. It may then:
 
